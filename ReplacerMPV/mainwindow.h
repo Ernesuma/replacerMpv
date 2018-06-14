@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+signals:
+    void pushBtnReplace_clicked();
 };
 
 #endif // MAINWINDOW_H
