@@ -25,15 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    presenter.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    presenter.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
+
+include(ReplacerMpv.pri)
 
 RESOURCES += \
     icon.qrc
