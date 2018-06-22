@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>triforce_green.png</file>
+    </qresource>
+</RCC>
