@@ -24,3 +24,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+QString MainWindow::getPlainText() const
+{
+    return ui->textEdit_plain->toPlainText();
+}
