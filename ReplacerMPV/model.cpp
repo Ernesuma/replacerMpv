@@ -19,3 +19,13 @@ void Model::appendPlainText(const QString &text)
 {
     m_plainText.append(text);
 }
+
+void Model::clearPlainText()
+{
+    m_plainText.clear();
+}
+
+void Model::clearAll()
+{
+    clearPlainText();
+}
