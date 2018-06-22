@@ -23,6 +23,7 @@ public:
 
 public slots:
     void mwPushBtnReplaceClicked();
+    void mwTextEditPlainChanged();
 };
 
 #endif // PRESENTER_H

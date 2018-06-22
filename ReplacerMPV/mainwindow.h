@@ -15,6 +15,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    // getter
+    QString getPlainText() const;
+
 private:
     Ui::MainWindow *ui;
 
