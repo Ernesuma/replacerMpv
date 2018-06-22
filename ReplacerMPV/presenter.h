@@ -11,6 +11,9 @@ class Presenter : public QObject
 {
     Q_OBJECT
 
+    // private member
+    MainWindow* m_pMainWindow{NULL};
+
 public:
     // constructor
     Presenter(MainWindow* mainWindow);

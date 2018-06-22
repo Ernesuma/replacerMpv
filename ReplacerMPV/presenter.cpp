@@ -1,8 +1,9 @@
 #include "presenter.h"
 
-Presenter::Presenter(MainWindow *mainWindow)
+Presenter::Presenter(MainWindow *pMainWindow) :
+    m_pMainWindow(pMainWindow)
 {
-    QObject::connect(mainWindow, SIGNAL(pushBtnReplace_clicked()), this, SLOT(mwPushBtnReplaceClicked()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnReplace_clicked()), this, SLOT(mwPushBtnReplaceClicked()));
 }
 
 void Presenter::mwPushBtnReplaceClicked()
