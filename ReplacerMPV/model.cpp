@@ -10,6 +10,11 @@ const QString &Model::getPlainText() const
     return m_plainText;
 }
 
+TagMapModel *Model::getTagMapModelRawPtr()
+{
+    return &m_tagMapModel;
+}
+
 void Model::setPlainText(const QString &text)
 {
     m_plainText = text;

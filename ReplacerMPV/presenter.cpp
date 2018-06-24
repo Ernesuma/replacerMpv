@@ -8,6 +8,10 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwPushBtnReplaceClicked()));
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
+
+    // connect the tag map model to the tag map list widget
+    // this way the model will be updated directly by the view et vice versa
+    m_pMainWindow->setTagMapModel(m_pModel->getTagMapModelRawPtr());
 }
 
 void Presenter::mwPushBtnReplaceClicked()

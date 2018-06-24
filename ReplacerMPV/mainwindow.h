@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QAbstractItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+public:
+    void setTagMapModel(QAbstractItemModel* pTagMapModel);
 
 signals:
     void pushBtnReplace_clicked();

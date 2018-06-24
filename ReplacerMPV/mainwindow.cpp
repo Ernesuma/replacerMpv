@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->pushButton_remove_all_tags, SIGNAL(clicked()), this, SIGNAL(pushBtnRemoveAllTags_clicked()));
 
     QObject::connect(ui->textEdit_plain, SIGNAL(textChanged()), this, SIGNAL(textEditPlain_textChanged()));
-
 }
 
 MainWindow::~MainWindow()
@@ -28,4 +27,9 @@ MainWindow::~MainWindow()
 QString MainWindow::getPlainText() const
 {
     return ui->textEdit_plain->toPlainText();
+}
+
+void MainWindow::setTagMapModel(QAbstractItemModel *pTagMapModel)
+{
+    ui->tableView->setModel(pTagMapModel);
 }
