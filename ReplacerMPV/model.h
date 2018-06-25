@@ -7,6 +7,7 @@
 class Model
 {
     QString m_plainText{""};
+    QString m_finalText{""};
     TagMapModel m_tagMapModel;
 
 public:
@@ -14,6 +15,7 @@ public:
 
     // getter
     const QString &getPlainText() const;
+    const QString &getFinalText() const;
 
     // get access to the raw pointer to the tag map class
     // USE WITH CARE!
@@ -22,6 +24,7 @@ public:
 
     // setter
     void setPlainText(const QString &text);
+    void setFinalText(const QString &text);
     void appendPlainText(const QString &text);
 
     // cleaner

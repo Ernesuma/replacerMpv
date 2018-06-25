@@ -65,3 +65,21 @@ void MainWindow::focusAddTagLineEdit()
     // set the focus to the first 'new tag' line edit
     ui->lineEdit_newTag->setFocus();
 }
+
+void MainWindow::enableC2CPlainBtn(const bool bEnable)
+{
+    // enable button if parameter is true et vice versa
+    ui->pushButton_c2c_plain->setEnabled(bEnable);
+}
+
+void MainWindow::enableC2CFinalBtn(const bool bEnable)
+{
+    // enable button if parameter is true et vice versa
+    ui->pushButton_c2c_final->setEnabled(bEnable);
+}
+
+void MainWindow::enableExportFinalBtn(const bool bEnable)
+{
+    // enable button if parameter is true et vice versa
+    ui->pushButton_exportFinal->setEnabled(bEnable);
+}
