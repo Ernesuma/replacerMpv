@@ -18,12 +18,15 @@ public:
 
     // getter
     QString getPlainText() const;
+    QString getNewTag() const;
+    QString getNewTagValue() const;
+
+    void setTagMapModel(QAbstractItemModel* pTagMapModel);
+    void clearAddTagLineEdits();
+    void focusAddTagLineEdit();
 
 private:
     Ui::MainWindow *ui;
-
-public:
-    void setTagMapModel(QAbstractItemModel* pTagMapModel);
 
 signals:
     void pushBtnReplace_clicked();

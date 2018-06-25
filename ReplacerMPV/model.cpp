@@ -34,3 +34,8 @@ void Model::clearAll()
 {
     clearPlainText();
 }
+
+void Model::addTag2List(const QString &tag, const QString &value)
+{
+    m_tagMapModel.insert(tag, value);
+}

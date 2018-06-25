@@ -26,6 +26,9 @@ public:
     // cleaner
     void clearPlainText();
     void clearAll();
+
+    // other
+    void addTag2List(const QString& tag, const QString& value);
 };
 
 #endif // MODEL_H
