@@ -21,10 +21,13 @@ public:
     QString getNewTag() const;
     QString getNewTagValue() const;
 
+    // setter
     void setTagMapModel(QAbstractItemModel* pTagMapModel);
     void setFinalText(const QString& text);
     void clearAddTagLineEdits();
     void focusAddTagLineEdit();
+
+    void enableC2CPlainBtn(bool bEnable);
 
 private:
     Ui::MainWindow *ui;

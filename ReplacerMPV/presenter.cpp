@@ -47,10 +47,11 @@ void Presenter::mwPushBtnAddTag_clicked()
     m_pMainWindow->focusAddTagLineEdit();
 }
 
-/*
- * copy the text from the mainwindows text edit into the model
- */
 void Presenter::mwTextEditPlainChanged()
 {
+    // copy the text from the mainwindows text edit into the model
     m_pModel->setPlainText(m_pMainWindow->getPlainText());
+
+    // disable the Copy2Clipboard button if there is no plain text
+    m_pMainWindow->enableC2CPlainBtn(!m_pModel->getPlainText().isEmpty());
 }
