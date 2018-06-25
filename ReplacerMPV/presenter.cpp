@@ -20,17 +20,28 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
 
 void Presenter::mwPushBtnReplaceClicked()
 {
-    // call replacer on plain text and save to QString varible 'finalText'
-    QString finalText{""};
-    if (!Replacer::replace(m_pModel->getPlainText(),
-                           finalText,
-                           m_pModel->getTagMap()))
+    // let the tmpFinalText just be valid inside this scope {…}
     {
-        // if call to replace returns error value: log the error
-        qCritical("Could not replace the tags");
+        QString tmpFinalText{""};
+        // call replacer on plain text and save to QString varible 'tmpFinalText'
+        if (!Replacer::replace(m_pModel->getPlainText(),
+                               tmpFinalText,
+                               m_pModel->getTagMap()))
+        {
+            // if call to replace returns error value: log the error
+            qCritical("Could not replace the tags");
+        }
+        // set final text in the model
+        m_pModel->setFinalText(tmpFinalText);
     }
+
     // set final text in the main window, which will print it to the user
-    m_pMainWindow->setFinalText(finalText);
+    m_pMainWindow->setFinalText(m_pModel->getFinalText());
+
+    // enable export and copy2Clipboard buttons for final text, if text is not empty
+    const bool bEnableBtns = !m_pModel->getFinalText().isEmpty();
+    m_pMainWindow->enableC2CFinalBtn(bEnableBtns);
+    m_pMainWindow->enableExportFinalBtn(bEnableBtns);
 }
 
 void Presenter::mwPushBtnC2CPlainClicked() const

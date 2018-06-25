@@ -28,6 +28,8 @@ public:
     void focusAddTagLineEdit();
 
     void enableC2CPlainBtn(const bool bEnable);
+    void enableC2CFinalBtn(const bool bEnable);
+    void enableExportFinalBtn(const bool bEnable);
 
 private:
     Ui::MainWindow *ui;
