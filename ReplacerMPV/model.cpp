@@ -15,6 +15,11 @@ TagMapModel *Model::getTagMapModelRawPtr()
     return &m_tagMapModel;
 }
 
+const tagMap &Model::getTagMap() const
+{
+    return m_tagMapModel.getTagMap();
+}
+
 void Model::setPlainText(const QString &text)
 {
     m_plainText = text;

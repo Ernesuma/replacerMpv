@@ -18,9 +18,17 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
 
 void Presenter::mwPushBtnReplaceClicked()
 {
-    // TODO: delete test output
-    qInfo() << "push button replace";
-    qInfo() << m_pModel->getPlainText();
+    // call replacer on plain text and save to QString varible 'finalText'
+    QString finalText{""};
+    if (!Replacer::replace(m_pModel->getPlainText(),
+                           finalText,
+                           m_pModel->getTagMap()))
+    {
+        // if call to replace returns error value: log the error
+        qCritical("Could not replace the tags");
+    }
+    // set final text in the main window, which will print it to the user
+    m_pMainWindow->setFinalText(finalText);
 }
 
 void Presenter::mwPushBtnAddTag_clicked()
