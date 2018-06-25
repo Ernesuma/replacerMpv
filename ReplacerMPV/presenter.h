@@ -23,6 +23,7 @@ public:
 
 public slots:
     void mwPushBtnReplaceClicked();
+    void mwPushBtnAddTag_clicked();
     void mwTextEditPlainChanged();
 };
 

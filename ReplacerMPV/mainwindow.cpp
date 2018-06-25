@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->pushButton_remove_all_tags, SIGNAL(clicked()), this, SIGNAL(pushBtnRemoveAllTags_clicked()));
 
     QObject::connect(ui->textEdit_plain, SIGNAL(textChanged()), this, SIGNAL(textEditPlain_textChanged()));
-
 }
 
 MainWindow::~MainWindow()
@@ -28,4 +27,30 @@ MainWindow::~MainWindow()
 QString MainWindow::getPlainText() const
 {
     return ui->textEdit_plain->toPlainText();
+}
+
+QString MainWindow::getNewTag() const
+{
+    return ui->lineEdit_newTag->text();
+}
+
+QString MainWindow::getNewTagValue() const
+{
+    return ui->lineEdit_newValue->text();
+}
+
+void MainWindow::setTagMapModel(QAbstractItemModel *pTagMapModel)
+{
+    ui->tableView->setModel(pTagMapModel);
+}
+
+void MainWindow::clearAddTagLineEdits()
+{
+    ui->lineEdit_newTag->clear();
+    ui->lineEdit_newValue->clear();
+}
+
+void MainWindow::focusAddTagLineEdit()
+{
+    ui->lineEdit_newTag->setFocus();
 }

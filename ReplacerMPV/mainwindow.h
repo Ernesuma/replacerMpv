@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QAbstractItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,12 @@ public:
 
     // getter
     QString getPlainText() const;
+    QString getNewTag() const;
+    QString getNewTagValue() const;
+
+    void setTagMapModel(QAbstractItemModel* pTagMapModel);
+    void clearAddTagLineEdits();
+    void focusAddTagLineEdit();
 
 private:
     Ui::MainWindow *ui;
