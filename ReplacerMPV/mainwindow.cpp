@@ -66,7 +66,7 @@ void MainWindow::focusAddTagLineEdit()
     ui->lineEdit_newTag->setFocus();
 }
 
-void MainWindow::enableC2CPlainBtn(bool bEnable)
+void MainWindow::enableC2CPlainBtn(const bool bEnable)
 {
     // enable button if parameter is true et vice versa
     ui->pushButton_c2c_plain->setEnabled(bEnable);

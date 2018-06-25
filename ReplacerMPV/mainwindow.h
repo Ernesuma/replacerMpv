@@ -27,7 +27,7 @@ public:
     void clearAddTagLineEdits();
     void focusAddTagLineEdit();
 
-    void enableC2CPlainBtn(bool bEnable);
+    void enableC2CPlainBtn(const bool bEnable);
 
 private:
     Ui::MainWindow *ui;
