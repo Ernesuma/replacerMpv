@@ -8,6 +8,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwPushBtnReplaceClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
                      this, SLOT(mwPushBtnC2CPlainClicked()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnC2cFinal_clicked()),
+                     this, SLOT(mwPushBtnC2CFinalClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
                      this, SLOT(mwPushBtnAddTag_clicked()));
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
@@ -48,6 +50,13 @@ void Presenter::mwPushBtnC2CPlainClicked() const
 {
     // copy plain text from model to the clipboard
     const QString& tmp = m_pModel->getPlainText();
+    QApplication::clipboard()->setText(tmp);
+}
+
+void Presenter::mwPushBtnC2CFinalClicked() const
+{
+    // copy final text from model to the clipboard
+    const QString& tmp = m_pModel->getFinalText();
     QApplication::clipboard()->setText(tmp);
 }
 
