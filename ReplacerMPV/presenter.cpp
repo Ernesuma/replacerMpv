@@ -35,11 +35,14 @@ void Presenter::mwPushBtnAddTag_clicked()
 {
     qInfo() << "push button 'add tag' clicked";
 
+    // read the values from the line edits
     QString tag = m_pMainWindow->getNewTag();
     QString value = m_pMainWindow->getNewTagValue();
 
+    // provide the values to the model
     m_pModel->addTag2List(tag, value);
 
+    // clear the line edits and set focus to conveniently input the next tag
     m_pMainWindow->clearAddTagLineEdits();
     m_pMainWindow->focusAddTagLineEdit();
 }

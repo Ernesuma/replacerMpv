@@ -31,16 +31,19 @@ QString MainWindow::getPlainText() const
 
 QString MainWindow::getNewTag() const
 {
+    // return the text from the 'newTag' line edit
     return ui->lineEdit_newTag->text();
 }
 
 QString MainWindow::getNewTagValue() const
 {
+    // return the text from the 'newValue' line edit
     return ui->lineEdit_newValue->text();
 }
 
 void MainWindow::setTagMapModel(QAbstractItemModel *pTagMapModel)
 {
+    // connect pTagMapModel to the table view
     ui->tableView->setModel(pTagMapModel);
 }
 
@@ -52,11 +55,13 @@ void MainWindow::setFinalText(const QString &text)
 
 void MainWindow::clearAddTagLineEdits()
 {
+    // clear both 'new tag' line edits
     ui->lineEdit_newTag->clear();
     ui->lineEdit_newValue->clear();
 }
 
 void MainWindow::focusAddTagLineEdit()
 {
+    // set the focus to the first 'new tag' line edit
     ui->lineEdit_newTag->setFocus();
 }
