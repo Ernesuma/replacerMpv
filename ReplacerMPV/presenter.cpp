@@ -6,6 +6,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
 {
     QObject::connect(pMainWindow, SIGNAL(pushBtnReplace_clicked()),
                      this, SLOT(mwPushBtnReplaceClicked()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
+                     this, SLOT(mwPushBtnC2CPlainClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
                      this, SLOT(mwPushBtnAddTag_clicked()));
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
@@ -29,6 +31,13 @@ void Presenter::mwPushBtnReplaceClicked()
     }
     // set final text in the main window, which will print it to the user
     m_pMainWindow->setFinalText(finalText);
+}
+
+void Presenter::mwPushBtnC2CPlainClicked() const
+{
+    // copy plain text from model to the clipboard
+    const QString& tmp = m_pModel->getPlainText();
+    QApplication::clipboard()->setText(tmp);
 }
 
 void Presenter::mwPushBtnAddTag_clicked()

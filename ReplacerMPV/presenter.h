@@ -4,6 +4,8 @@
 #include<QObject>
 #include<QDebug>
 #include<QErrorMessage>
+#include<QApplication>
+#include<QClipboard>
 
 #include"model.h"
 #include"mainwindow.h"
@@ -25,7 +27,9 @@ public:
 
 public slots:
     void mwPushBtnReplaceClicked();
+    void mwPushBtnC2CPlainClicked() const;
     void mwPushBtnAddTag_clicked();
+
     void mwTextEditPlainChanged();
 };
 
