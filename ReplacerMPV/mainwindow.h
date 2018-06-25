@@ -22,6 +22,7 @@ public:
     QString getNewTagValue() const;
 
     void setTagMapModel(QAbstractItemModel* pTagMapModel);
+    void setFinalText(const QString& text);
     void clearAddTagLineEdits();
     void focusAddTagLineEdit();
 

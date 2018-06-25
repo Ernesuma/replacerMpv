@@ -17,7 +17,9 @@ public:
     ~Replacer(){};
 
     // replace method
-    bool replace(const QString& plain, QString& final, const tagMap& tags) const;
+    static bool replace(const QString& plain,
+                        QString& final,
+                        const tagMap& tags);
 
 };
 

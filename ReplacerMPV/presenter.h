@@ -3,9 +3,11 @@
 
 #include<QObject>
 #include<QDebug>
+#include<QErrorMessage>
 
 #include"model.h"
 #include"mainwindow.h"
+#include"replacer.h"
 
 
 class Presenter : public QObject
