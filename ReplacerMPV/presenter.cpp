@@ -79,6 +79,13 @@ void Presenter::mwPushBtnAddTag_clicked()
     // clear the line edits and set focus to conveniently input the next tag
     m_pMainWindow->clearAddTagLineEdits();
     m_pMainWindow->focusAddTagLineEdit();
+
+    // enable the tag removal buttons
+    if (!m_pModel->isTagMapEmpty())
+    {
+        m_pMainWindow->enableRemoveSelTagsBtn(true);
+        m_pMainWindow->enableRemoveAllTagsBtn(true);
+    }
 }
 
 void Presenter::mwPushBtnRemoveSelTags()
@@ -102,6 +109,13 @@ void Presenter::mwPushBtnRemoveAllTags()
     {
         m_pModel->clearAllTags();
         //m_pMainWindow->clearSelectionOfTagMapTableView();
+
+        // disable the tag removal buttons
+        if (m_pModel->isTagMapEmpty())
+        {
+            m_pMainWindow->enableRemoveSelTagsBtn(false);
+            m_pMainWindow->enableRemoveAllTagsBtn(false);
+        }
     }
 }
 

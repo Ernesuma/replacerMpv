@@ -15,6 +15,11 @@ const QString &Model::getFinalText() const
     return m_finalText;
 }
 
+const bool Model::isTagMapEmpty() const
+{
+    return (0 == m_tagMapModel.rowCount());
+}
+
 TagMapModel *Model::getTagMapModelRawPtr()
 {
     return &m_tagMapModel;

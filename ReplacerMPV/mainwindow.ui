@@ -285,6 +285,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
            <widget class="QPushButton" name="pushButton_remove_selected_tags">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Remove &amp;Selected</string>
             </property>
@@ -292,6 +295,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_remove_all_tags">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Remove &amp;All</string>
             </property>

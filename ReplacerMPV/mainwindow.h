@@ -30,6 +30,8 @@ public:
     void enableC2CPlainBtn(const bool bEnable);
     void enableC2CFinalBtn(const bool bEnable);
     void enableExportFinalBtn(const bool bEnable);
+    void enableRemoveSelTagsBtn(const bool bEnable);
+    void enableRemoveAllTagsBtn(const bool bEnable);
 
 private:
     Ui::MainWindow *ui;
