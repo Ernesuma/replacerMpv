@@ -8,6 +8,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     m_pModel(pModel)
 {
     // connect the main windows signals to the presenters slots
+    // --------------------------------------------------------
+    // push buttons
     QObject::connect(pMainWindow, SIGNAL(pushBtnReplace_clicked()),
                      this, SLOT(mwPushBtnReplaceClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
@@ -21,9 +23,11 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveAllTags_clicked()),
                      this, SLOT(mwPushBtnRemoveAllTags()));
 
+    // text edits
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
 
+    // menu 'Menu'
     QObject::connect(pMainWindow, SIGNAL(menuNew()),
                      this, SLOT(mwMenuNew()));
     QObject::connect(pMainWindow, SIGNAL(menuLoad()),
@@ -35,6 +39,7 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     QObject::connect(pMainWindow, SIGNAL(menuExit()),
                      this, SLOT(mwMenuExit()));
 
+    // menu 'Data'
     QObject::connect(pMainWindow, SIGNAL(menuImportPlain()),
                      this, SLOT(mwMenuImportPlain()));
     QObject::connect(pMainWindow, SIGNAL(menuImportTags()),
@@ -46,9 +51,12 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     QObject::connect(pMainWindow, SIGNAL(menuExportTags()),
                      this, SLOT(mwMenuExportTags()));
 
+    // menu 'Help'
     QObject::connect(pMainWindow, SIGNAL(menuAbout()),
                      this, SLOT(mwMenuAbout()));
 
+    // connect tag map
+    // ---------------
     // connect the tag map model to the tag map list widget
     // this way the model will be updated directly by the view et vice versa
     m_pMainWindow->setTagMapModel(m_pModel->getTagMapModelRawPtr());
