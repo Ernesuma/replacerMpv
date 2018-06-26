@@ -7,6 +7,7 @@
 #include<QApplication>
 #include<QClipboard>
 #include<QMessageBox>
+#include<QItemSelectionModel>
 
 #include"model.h"
 #include"mainwindow.h"

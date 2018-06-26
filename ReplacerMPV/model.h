@@ -30,6 +30,7 @@ public:
 
     // cleaner
     void clearPlainText();
+    bool removeTags(const QModelIndexList& rows);
     void clearAllTags();
     void clearAll();
 

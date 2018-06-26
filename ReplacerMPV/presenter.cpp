@@ -91,6 +91,25 @@ void Presenter::mwPushBtnAddTag_clicked()
 void Presenter::mwPushBtnRemoveSelTags()
 {
     qInfo() << "remove selected tags";
+
+    // identify the selected rows
+    const QItemSelectionModel* pSelect{m_pMainWindow->getTagMapSelection()};
+    QModelIndexList rows = pSelect->selectedRows();
+
+    if (!rows.isEmpty())
+    {
+        if (!m_pModel->removeTags(rows))
+        {
+            qCritical("Could not remove the selected tags");
+        }
+    }
+
+    // disable the tag removal buttons
+    if (m_pModel->isTagMapEmpty())
+    {
+        m_pMainWindow->enableRemoveSelTagsBtn(false);
+        m_pMainWindow->enableRemoveAllTagsBtn(false);
+    }
 }
 
 void Presenter::mwPushBtnRemoveAllTags()

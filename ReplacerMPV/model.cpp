@@ -50,6 +50,11 @@ void Model::clearPlainText()
     m_plainText.clear();
 }
 
+bool Model::removeTags(const QModelIndexList &rows)
+{
+    return m_tagMapModel.removeRows(rows);
+}
+
 void Model::clearAllTags()
 {
     // remove all entries of the tag map model
@@ -58,7 +63,9 @@ void Model::clearAllTags()
 
 void Model::clearAll()
 {
+    // call all cleaner methods of the model
     clearPlainText();
+    clearAllTags();
 }
 
 void Model::addTag2List(const QString &tag, const QString &value)

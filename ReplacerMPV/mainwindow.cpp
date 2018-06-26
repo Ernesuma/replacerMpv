@@ -41,6 +41,11 @@ QString MainWindow::getNewTagValue() const
     return ui->lineEdit_newValue->text();
 }
 
+const QItemSelectionModel *MainWindow::getTagMapSelection()
+{
+    return ui->tableView->selectionModel();
+}
+
 void MainWindow::setTagMapModel(QAbstractItemModel *pTagMapModel)
 {
     // connect pTagMapModel to the table view
