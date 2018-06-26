@@ -88,7 +88,21 @@ void Presenter::mwPushBtnRemoveSelTags()
 
 void Presenter::mwPushBtnRemoveAllTags()
 {
-    qInfo() << "remove all tags";
+    // create Message Box to ask user for confirmation
+    QMessageBox mBox(m_pMainWindow);
+    mBox.setText(tr("Do you really want to delete all tags?"));
+    mBox.setInformativeText(tr("Click 'OK' to delete all tags."));
+    mBox.setIcon(QMessageBox::Question);
+    mBox.setStandardButtons(QMessageBox::Abort | QMessageBox::Ok);
+    mBox.setDefaultButton(QMessageBox::Abort);
+    auto retVal = mBox.exec();
+
+    // if user confirmed removal of all tags:
+    if (QMessageBox::Ok == retVal)
+    {
+        m_pModel->clearAllTags();
+        //m_pMainWindow->clearSelectionOfTagMapTableView();
+    }
 }
 
 void Presenter::mwTextEditPlainChanged()

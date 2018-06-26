@@ -6,6 +6,7 @@
 #include<QErrorMessage>
 #include<QApplication>
 #include<QClipboard>
+#include<QMessageBox>
 
 #include"model.h"
 #include"mainwindow.h"

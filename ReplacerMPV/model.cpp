@@ -45,6 +45,12 @@ void Model::clearPlainText()
     m_plainText.clear();
 }
 
+void Model::clearAllTags()
+{
+    // remove all entries of the tag map model
+    m_tagMapModel.removeAllRows();
+}
+
 void Model::clearAll()
 {
     clearPlainText();

@@ -29,6 +29,7 @@ public:
 
     // cleaner
     void clearPlainText();
+    void clearAllTags();
     void clearAll();
 
     // other
