@@ -109,13 +109,16 @@ void MainWindow::enableRemoveAllTagsBtn(const bool bEnable)
 
 void MainWindow::createMenus()
 {
-    // add menu "Menu" to the menuBar
+    // add menus to menubar
+    // --------------------
     // use tr(…) function to mark charecter acting as <Alt-…> keybinding
     // (Note that menuBar takes ownership of the new menu! -> No explicit deletion of m_menuMenu needed!)
     m_menuMenu = ui->menuBar->addMenu(tr("&Menu"));
     m_menuData = ui->menuBar->addMenu(tr("&Data"));
     m_menuHelp = ui->menuBar->addMenu(tr("&Help"));
 
+    // setup actions for the menu entries
+    // ----------------------------------
     // create "Exit" action
     QAction *exitAction = new QAction(tr("&Exit"), this);
     // add standard shortcut for closing
@@ -125,52 +128,63 @@ void MainWindow::createMenus()
     // connect this actions triggered SIGNAL to the menu exit signal
     QObject::connect(exitAction, SIGNAL(triggered(bool)), this, SIGNAL(menuExit()));
 
+    // setup action for entry 'New'
     QAction *newAction = new QAction(tr("&New"), this);
     newAction->setShortcut(QKeySequence::New);
     newAction->setStatusTip(tr("create new project"));
-    //connect(newAction, &QAction::triggered, this, &MainWindow::menuNew);
+    QObject::connect(newAction, SIGNAL(triggered(bool)), this, SIGNAL(menuNew()));
 
+    // setup action for entry 'Save'
     m_actionSave = new QAction(tr("&Save"), this);
     m_actionSave->setShortcut(QKeySequence::Save);
     m_actionSave->setStatusTip(tr("save project"));
-    //connect(m_actionSave, &QAction::triggered, this, &MainWindow::menuSave);
+    QObject::connect(m_actionSave, SIGNAL(triggered(bool)), this, SIGNAL(menuSave()));
 
+    // setup for entry 'Save As'
     QAction *saveAsAction = new QAction(tr("Save &As"), this);
     saveAsAction->setShortcut(QKeySequence::SaveAs);
     saveAsAction->setStatusTip(tr("save project as …"));
-    //connect(saveAsAction, &QAction::triggered, this, &MainWindow::menuSaveAs);
+    QObject::connect(saveAsAction, SIGNAL(triggered(bool)), this, SIGNAL(menuSaveAs()));
 
+    // setup action for entry 'Load'
     QAction *loadAction = new QAction(tr("&Load"), this);
     loadAction->setShortcut(QKeySequence::Open);
     loadAction->setStatusTip(tr("load project"));
-    //connect(loadAction, &QAction::triggered, this, &MainWindow::menuLoad);
+    QObject::connect(loadAction, SIGNAL(triggered(bool)), this, SIGNAL(menuLoad()));
 
+    // setup action for entry 'Import Plain Text from File'
     QAction* importPlainAction = new QAction(tr("&Import Plain Text from File"), this);
     importPlainAction->setStatusTip(tr("import plain text from a text file"));
-    //connect(importPlainAction, &QAction::triggered, this, &MainWindow::menuImportPlain);
+    QObject::connect(importPlainAction, SIGNAL(triggered(bool)), this, SIGNAL(menuImportPlain()));
 
+    // setup action for entry 'Import Tag List from File'
     QAction* importTagList = new QAction(tr("&Import Tag List from File"), this);
     importTagList->setStatusTip(tr("import tag list from a file"));
-    //connect(importTagList, &QAction::triggered, this, &MainWindow::menuImportTagList);
+    QObject::connect(importTagList, SIGNAL(triggered(bool)), this, SIGNAL(menuImportTags()));
 
+    // setup action for entry 'Export Plain Text to File'
     m_actionExportPlain = new QAction(tr("&Export Plain Text to File"), this);
     m_actionExportPlain->setStatusTip("write plain text to a file");
-    //connect(m_actionExportPlain, &QAction::triggered, this, &MainWindow::menuExportPlain);
+    QObject::connect(m_actionExportPlain, SIGNAL(triggered(bool)), this, SIGNAL(menuExportPlain()));
 
+    // setup action for entry 'Export Final Text to File'
     m_actionExportFinal = new QAction(tr("&Export Final Text to File"), this);
     m_actionExportFinal->setStatusTip(tr("write final text to file"));
-    //connect(m_actionExportFinal, &QAction::triggered, this, &MainWindow::menuExportFinal);
+    QObject::connect(m_actionExportFinal, SIGNAL(triggered(bool)), this, SIGNAL(menuExportFinal()));
 
+    // setup action for entry 'Export Tag List to File'
     m_actionExportTagList = new QAction(tr("&Export Tag List to File"), this);
     m_actionExportTagList->setStatusTip("write the tag list to a file");
-    //connect(m_actionExportTagList, &QAction::triggered, this, &MainWindow::menuExportTagList);
+    QObject::connect(m_actionExportTagList, SIGNAL(triggered(bool)), this, SIGNAL(menuExportTags()));
 
+    // setup action for entry 'About'
     QAction *aboutAction = new QAction(tr("&About"), this);
     aboutAction->setStatusTip(tr("show about dialog"));
-    //connect(aboutAction, &QAction::triggered, this, &MainWindow::menuAbout);
+    QObject::connect(aboutAction, SIGNAL(triggered(bool)), this, SIGNAL(menuAbout()));
 
     // add actions to menus
-    // the QMenu::addAction takes ownership of the returned QAction
+    // --------------------
+    // the QMenu::addAction takes ownership of the returned QAction!
     m_menuMenu->addAction(newAction);
     m_menuMenu->addAction(loadAction);
     m_menuMenu->addAction(m_actionSave);
@@ -186,5 +200,4 @@ void MainWindow::createMenus()
     m_menuData->addAction(m_actionExportTagList);
 
     m_menuHelp->addAction(aboutAction);
-
 }

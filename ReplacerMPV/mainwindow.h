@@ -57,6 +57,7 @@ private:
 
 
 signals:
+    // push buttons clicked signals
     void pushBtnReplace_clicked();
     void pushBtnC2cPlain_clicked();
     void pushBtnExportFinal_clicked();
@@ -65,9 +66,21 @@ signals:
     void pushBtnRemoveSelectedTags_clicked();
     void pushBtnRemoveAllTags_clicked();
 
+    // text edit changed signal
     void textEditPlain_textChanged();
 
+    // menu entries triggerd signals
     void menuExit();
+    void menuNew();
+    void menuLoad();
+    void menuSave();
+    void menuSaveAs();
+    void menuImportPlain();
+    void menuImportTags();
+    void menuExportPlain();
+    void menuExportTags();
+    void menuExportFinal();
+    void menuAbout();
 };
 
 #endif // MAINWINDOW_H

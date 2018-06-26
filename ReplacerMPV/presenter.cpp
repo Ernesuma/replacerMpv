@@ -24,8 +24,30 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
 
+    QObject::connect(pMainWindow, SIGNAL(menuNew()),
+                     this, SLOT(mwMenuNew()));
+    QObject::connect(pMainWindow, SIGNAL(menuLoad()),
+                     this, SLOT(mwMenuLoad()));
+    QObject::connect(pMainWindow, SIGNAL(menuSave()),
+                     this, SLOT(mwMenuSave()));
+    QObject::connect(pMainWindow, SIGNAL(menuSaveAs()),
+                     this, SLOT(mwMenuSaveAs()));
     QObject::connect(pMainWindow, SIGNAL(menuExit()),
                      this, SLOT(mwMenuExit()));
+
+    QObject::connect(pMainWindow, SIGNAL(menuImportPlain()),
+                     this, SLOT(mwMenuImportPlain()));
+    QObject::connect(pMainWindow, SIGNAL(menuImportTags()),
+                     this, SLOT(mwMenuImportTags()));
+    QObject::connect(pMainWindow, SIGNAL(menuExportPlain()),
+                     this, SLOT(mwMenuExportPlain()));
+    QObject::connect(pMainWindow, SIGNAL(menuExportFinal()),
+                     this, SLOT(mwMenuExportFinal()));
+    QObject::connect(pMainWindow, SIGNAL(menuExportTags()),
+                     this, SLOT(mwMenuExportTags()));
+
+    QObject::connect(pMainWindow, SIGNAL(menuAbout()),
+                     this, SLOT(mwMenuAbout()));
 
     // connect the tag map model to the tag map list widget
     // this way the model will be updated directly by the view et vice versa
@@ -154,8 +176,58 @@ void Presenter::mwTextEditPlainChanged()
     m_pMainWindow->enableC2CPlainBtn(!m_pModel->getPlainText().isEmpty());
 }
 
+void Presenter::mwMenuNew()
+{
+    qInfo() << "New";
+}
+
+void Presenter::mwMenuLoad()
+{
+    qInfo() << "Load";
+}
+
+void Presenter::mwMenuSave()
+{
+    qInfo() << "Save";
+}
+
+void Presenter::mwMenuSaveAs()
+{
+    qInfo() << "SaveAs";
+}
+
 void Presenter::mwMenuExit()
 {
     // close the main window
     m_pMainWindow->close();
+}
+
+void Presenter::mwMenuImportPlain()
+{
+    qInfo() << "Import Plain";
+}
+
+void Presenter::mwMenuImportTags()
+{
+    qInfo() << "Import Tags";
+}
+
+void Presenter::mwMenuExportPlain()
+{
+    qInfo() << "Export Plain";
+}
+
+void Presenter::mwMenuExportFinal()
+{
+    qInfo() << "Export Final";
+}
+
+void Presenter::mwMenuExportTags()
+{
+    qInfo() << "Export Tags";
+}
+
+void Presenter::mwMenuAbout()
+{
+    qInfo() << "About";
 }

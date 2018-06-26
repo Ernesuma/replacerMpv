@@ -36,7 +36,17 @@ public slots:
     void mwPushBtnRemoveSelTags();
     void mwPushBtnRemoveAllTags();
     void mwTextEditPlainChanged();
+    void mwMenuNew();
+    void mwMenuLoad();
+    void mwMenuSave();
+    void mwMenuSaveAs();
     void mwMenuExit();
+    void mwMenuImportPlain();
+    void mwMenuImportTags();
+    void mwMenuExportPlain();
+    void mwMenuExportFinal();
+    void mwMenuExportTags();
+    void mwMenuAbout();
 };
 
 #endif // PRESENTER_H
