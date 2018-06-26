@@ -26,6 +26,7 @@ MainWindow::~MainWindow()
 
 QString MainWindow::getPlainText() const
 {
+    // return the plain text from the text edit widget
     return ui->textEdit_plain->toPlainText();
 }
 
@@ -43,6 +44,7 @@ QString MainWindow::getNewTagValue() const
 
 const QItemSelectionModel *MainWindow::getTagMapSelection()
 {
+    // return the selected items from the table view widget
     return ui->tableView->selectionModel();
 }
 

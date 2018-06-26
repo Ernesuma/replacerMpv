@@ -1,9 +1,13 @@
 #include "presenter.h"
 
+/*
+ * constructor
+ */
 Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     m_pMainWindow(pMainWindow),
     m_pModel(pModel)
 {
+    // connect the main windows signals to the presenters slots
     QObject::connect(pMainWindow, SIGNAL(pushBtnReplace_clicked()),
                      this, SLOT(mwPushBtnReplaceClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),

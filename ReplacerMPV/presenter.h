@@ -28,13 +28,13 @@ public:
               Model* pModel);
 
 public slots:
+    // slots for the main windows (mw) signals
     void mwPushBtnReplaceClicked();
     void mwPushBtnC2CPlainClicked() const;
     void mwPushBtnC2CFinalClicked() const;
     void mwPushBtnAddTag_clicked();
     void mwPushBtnRemoveSelTags();
     void mwPushBtnRemoveAllTags();
-
     void mwTextEditPlainChanged();
 };
 
