@@ -24,6 +24,9 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
 
+    QObject::connect(pMainWindow, SIGNAL(menuExit()),
+                     this, SLOT(mwMenuExit()));
+
     // connect the tag map model to the tag map list widget
     // this way the model will be updated directly by the view et vice versa
     m_pMainWindow->setTagMapModel(m_pModel->getTagMapModelRawPtr());
@@ -149,4 +152,10 @@ void Presenter::mwTextEditPlainChanged()
 
     // disable the Copy2Clipboard button if there is no plain text
     m_pMainWindow->enableC2CPlainBtn(!m_pModel->getPlainText().isEmpty());
+}
+
+void Presenter::mwMenuExit()
+{
+    // close the main window
+    m_pMainWindow->close();
 }
