@@ -12,6 +12,11 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwPushBtnC2CFinalClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
                      this, SLOT(mwPushBtnAddTag_clicked()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveSelectedTags_clicked()),
+                     this, SLOT(mwPushBtnRemoveSelTags()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveAllTags_clicked()),
+                     this, SLOT(mwPushBtnRemoveAllTags()));
+
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
 
@@ -74,6 +79,63 @@ void Presenter::mwPushBtnAddTag_clicked()
     // clear the line edits and set focus to conveniently input the next tag
     m_pMainWindow->clearAddTagLineEdits();
     m_pMainWindow->focusAddTagLineEdit();
+
+    // enable the tag removal buttons
+    if (!m_pModel->isTagMapEmpty())
+    {
+        m_pMainWindow->enableRemoveSelTagsBtn(true);
+        m_pMainWindow->enableRemoveAllTagsBtn(true);
+    }
+}
+
+void Presenter::mwPushBtnRemoveSelTags()
+{
+    qInfo() << "remove selected tags";
+
+    // identify the selected rows
+    const QItemSelectionModel* pSelect{m_pMainWindow->getTagMapSelection()};
+    QModelIndexList rows = pSelect->selectedRows();
+
+    if (!rows.isEmpty())
+    {
+        if (!m_pModel->removeTags(rows))
+        {
+            qCritical("Could not remove the selected tags");
+        }
+    }
+
+    // disable the tag removal buttons
+    if (m_pModel->isTagMapEmpty())
+    {
+        m_pMainWindow->enableRemoveSelTagsBtn(false);
+        m_pMainWindow->enableRemoveAllTagsBtn(false);
+    }
+}
+
+void Presenter::mwPushBtnRemoveAllTags()
+{
+    // create Message Box to ask user for confirmation
+    QMessageBox mBox(m_pMainWindow);
+    mBox.setText(tr("Do you really want to delete all tags?"));
+    mBox.setInformativeText(tr("Click 'OK' to delete all tags."));
+    mBox.setIcon(QMessageBox::Question);
+    mBox.setStandardButtons(QMessageBox::Abort | QMessageBox::Ok);
+    mBox.setDefaultButton(QMessageBox::Abort);
+    auto retVal = mBox.exec();
+
+    // if user confirmed removal of all tags:
+    if (QMessageBox::Ok == retVal)
+    {
+        m_pModel->clearAllTags();
+        //m_pMainWindow->clearSelectionOfTagMapTableView();
+
+        // disable the tag removal buttons
+        if (m_pModel->isTagMapEmpty())
+        {
+            m_pMainWindow->enableRemoveSelTagsBtn(false);
+            m_pMainWindow->enableRemoveAllTagsBtn(false);
+        }
+    }
 }
 
 void Presenter::mwTextEditPlainChanged()

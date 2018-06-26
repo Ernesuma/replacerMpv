@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QAbstractItemModel>
+#include <QItemSelectionModel>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,7 @@ public:
     QString getPlainText() const;
     QString getNewTag() const;
     QString getNewTagValue() const;
+    const QItemSelectionModel *getTagMapSelection();
 
     // setter
     void setTagMapModel(QAbstractItemModel* pTagMapModel);
@@ -30,6 +32,8 @@ public:
     void enableC2CPlainBtn(const bool bEnable);
     void enableC2CFinalBtn(const bool bEnable);
     void enableExportFinalBtn(const bool bEnable);
+    void enableRemoveSelTagsBtn(const bool bEnable);
+    void enableRemoveAllTagsBtn(const bool bEnable);
 
 private:
     Ui::MainWindow *ui;

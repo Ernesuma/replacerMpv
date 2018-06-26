@@ -41,6 +41,11 @@ QString MainWindow::getNewTagValue() const
     return ui->lineEdit_newValue->text();
 }
 
+const QItemSelectionModel *MainWindow::getTagMapSelection()
+{
+    return ui->tableView->selectionModel();
+}
+
 void MainWindow::setTagMapModel(QAbstractItemModel *pTagMapModel)
 {
     // connect pTagMapModel to the table view
@@ -82,4 +87,16 @@ void MainWindow::enableExportFinalBtn(const bool bEnable)
 {
     // enable button if parameter is true et vice versa
     ui->pushButton_exportFinal->setEnabled(bEnable);
+}
+
+void MainWindow::enableRemoveSelTagsBtn(const bool bEnable)
+{
+    // enable button if parameter is true et vice versa
+    ui->pushButton_remove_selected_tags->setEnabled(bEnable);
+}
+
+void MainWindow::enableRemoveAllTagsBtn(const bool bEnable)
+{
+    // enable button if parameter is true et vice versa
+    ui->pushButton_remove_all_tags->setEnabled(bEnable);
 }

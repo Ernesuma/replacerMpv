@@ -15,6 +15,11 @@ const QString &Model::getFinalText() const
     return m_finalText;
 }
 
+const bool Model::isTagMapEmpty() const
+{
+    return (0 == m_tagMapModel.rowCount());
+}
+
 TagMapModel *Model::getTagMapModelRawPtr()
 {
     return &m_tagMapModel;
@@ -45,9 +50,22 @@ void Model::clearPlainText()
     m_plainText.clear();
 }
 
+bool Model::removeTags(const QModelIndexList &rows)
+{
+    return m_tagMapModel.removeRows(rows);
+}
+
+void Model::clearAllTags()
+{
+    // remove all entries of the tag map model
+    m_tagMapModel.removeAllRows();
+}
+
 void Model::clearAll()
 {
+    // call all cleaner methods of the model
     clearPlainText();
+    clearAllTags();
 }
 
 void Model::addTag2List(const QString &tag, const QString &value)

@@ -6,6 +6,8 @@
 #include<QErrorMessage>
 #include<QApplication>
 #include<QClipboard>
+#include<QMessageBox>
+#include<QItemSelectionModel>
 
 #include"model.h"
 #include"mainwindow.h"
@@ -30,6 +32,8 @@ public slots:
     void mwPushBtnC2CPlainClicked() const;
     void mwPushBtnC2CFinalClicked() const;
     void mwPushBtnAddTag_clicked();
+    void mwPushBtnRemoveSelTags();
+    void mwPushBtnRemoveAllTags();
 
     void mwTextEditPlainChanged();
 };
