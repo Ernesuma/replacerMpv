@@ -30,6 +30,8 @@ public slots:
     void mwPushBtnC2CPlainClicked() const;
     void mwPushBtnC2CFinalClicked() const;
     void mwPushBtnAddTag_clicked();
+    void mwPushBtnRemoveSelTags();
+    void mwPushBtnRemoveAllTags();
 
     void mwTextEditPlainChanged();
 };

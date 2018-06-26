@@ -12,6 +12,11 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwPushBtnC2CFinalClicked()));
     QObject::connect(pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
                      this, SLOT(mwPushBtnAddTag_clicked()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveSelectedTags_clicked()),
+                     this, SLOT(mwPushBtnRemoveSelTags()));
+    QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveAllTags_clicked()),
+                     this, SLOT(mwPushBtnRemoveAllTags()));
+
     QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
 
@@ -74,6 +79,16 @@ void Presenter::mwPushBtnAddTag_clicked()
     // clear the line edits and set focus to conveniently input the next tag
     m_pMainWindow->clearAddTagLineEdits();
     m_pMainWindow->focusAddTagLineEdit();
+}
+
+void Presenter::mwPushBtnRemoveSelTags()
+{
+    qInfo() << "remove selected tags";
+}
+
+void Presenter::mwPushBtnRemoveAllTags()
+{
+    qInfo() << "remove all tags";
 }
 
 void Presenter::mwTextEditPlainChanged()
