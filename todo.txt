@@ -1,0 +1,2 @@
+* remove log outputs
+* exit confirmation dialog
