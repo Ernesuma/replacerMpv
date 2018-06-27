@@ -54,6 +54,7 @@ public slots:
 private:
     void enableDisableTagRemovalBtns();
     void importPlain();
+    void importTags();
 };
 
 #endif // PRESENTER_H
