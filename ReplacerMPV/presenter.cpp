@@ -118,11 +118,7 @@ void Presenter::mwPushBtnAddTag_clicked()
     m_pMainWindow->focusAddTagLineEdit();
 
     // enable the tag removal buttons
-    if (!m_pModel->isTagMapEmpty())
-    {
-        m_pMainWindow->enableRemoveSelTagsBtn(true);
-        m_pMainWindow->enableRemoveAllTagsBtn(true);
-    }
+    enableDisableTagRemovalBtns();
 }
 
 void Presenter::mwPushBtnRemoveSelTags()
@@ -140,13 +136,8 @@ void Presenter::mwPushBtnRemoveSelTags()
             qCritical("Could not remove the selected tags");
         }
     }
-
-    // disable the tag removal buttons
-    if (m_pModel->isTagMapEmpty())
-    {
-        m_pMainWindow->enableRemoveSelTagsBtn(false);
-        m_pMainWindow->enableRemoveAllTagsBtn(false);
-    }
+    // disable the tag removal buttons if neccessary
+    enableDisableTagRemovalBtns();
 }
 
 void Presenter::mwPushBtnRemoveAllTags()
@@ -166,12 +157,8 @@ void Presenter::mwPushBtnRemoveAllTags()
         m_pModel->clearAllTags();
         //m_pMainWindow->clearSelectionOfTagMapTableView();
 
-        // disable the tag removal buttons
-        if (m_pModel->isTagMapEmpty())
-        {
-            m_pMainWindow->enableRemoveSelTagsBtn(false);
-            m_pMainWindow->enableRemoveAllTagsBtn(false);
-        }
+        // enable or disable the tag removal buttons
+        enableDisableTagRemovalBtns();
     }
 }
 
@@ -238,6 +225,13 @@ void Presenter::mwMenuExportTags()
 void Presenter::mwMenuAbout()
 {
     qInfo() << "About";
+}
+
+void Presenter::enableDisableTagRemovalBtns()
+{
+    // disable the tag removal buttons depending on the tag map emptiness
+    m_pMainWindow->enableRemoveSelTagsBtn(!m_pModel->isTagMapEmpty());
+    m_pMainWindow->enableRemoveAllTagsBtn(!m_pModel->isTagMapEmpty());
 }
 
 void Presenter::importPlain()

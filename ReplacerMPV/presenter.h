@@ -52,6 +52,7 @@ public slots:
     void mwMenuAbout();
 
 private:
+    void enableDisableTagRemovalBtns();
     void importPlain();
 };
 
