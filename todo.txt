@@ -1,2 +1,4 @@
 * remove log outputs
 * exit confirmation dialog
+* handle separetor in exported and import tag files
+    * what happens if the separator is part of the value or the key?
