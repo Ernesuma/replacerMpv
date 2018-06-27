@@ -291,7 +291,6 @@ void Presenter::importTags()
             {
                 m_pModel->getTagMapModelRawPtr()->insert(key, tmpTagMap[key]);
             }
-
             // disable or enable the tag removal buttons
             enableDisableTagRemovalBtns();
 
