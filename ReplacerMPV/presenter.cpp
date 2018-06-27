@@ -212,7 +212,7 @@ void Presenter::mwMenuExit()
 
 void Presenter::mwMenuImportPlain()
 {
-    qInfo() << "Import Plain";
+    importPlain();
 }
 
 void Presenter::mwMenuImportTags()
@@ -238,4 +238,40 @@ void Presenter::mwMenuExportTags()
 void Presenter::mwMenuAbout()
 {
     qInfo() << "About";
+}
+
+void Presenter::importPlain()
+{
+    qInfo() << "import plain";
+
+    // open file dialog
+    QString tmpStr{QFileDialog::getOpenFileName(m_pMainWindow,
+                                                tr("Choose file to import plain text from"))};
+
+    // if file dialog returned something (not cancelled by user)
+    if (!tmpStr.isNull())
+    {
+        // convert to QDir object
+        QDir importFilePath{tmpStr};
+
+        // read files content
+        QString plainText{};
+        if (FileHelper::readFile2String(importFilePath, plainText))
+        {
+            // set plain text in view (this will trigger model update)
+            m_pMainWindow->setPlainText(plainText);
+
+            // inform user about succesfull import
+            MessageBoxHelper::infoMsgBox("Imported plain text from file:",
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        else
+        {
+            // inform user about failed import
+            MessageBoxHelper::warnMsgBox("Could not import chosen file:",
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+    }
 }

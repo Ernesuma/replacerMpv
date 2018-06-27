@@ -42,6 +42,7 @@ public:
 
     // setter
     void setTagMapModel(QAbstractItemModel* pTagMapModel);
+    void setPlainText(const QString& text);
     void setFinalText(const QString& text);
     void clearAddTagLineEdits();
     void focusAddTagLineEdit();

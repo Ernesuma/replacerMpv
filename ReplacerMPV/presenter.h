@@ -1,17 +1,20 @@
 #ifndef PRESENTER_H
 #define PRESENTER_H
 
-#include<QObject>
-#include<QDebug>
-#include<QErrorMessage>
-#include<QApplication>
-#include<QClipboard>
-#include<QMessageBox>
-#include<QItemSelectionModel>
+#include <QObject>
+#include <QDebug>
+#include <QErrorMessage>
+#include <QApplication>
+#include <QClipboard>
+#include <QMessageBox>
+#include <QItemSelectionModel>
+#include <QFileDialog>
 
-#include"model.h"
-#include"mainwindow.h"
-#include"replacer.h"
+#include "model.h"
+#include "mainwindow.h"
+#include "replacer.h"
+#include "filehelper.h"
+#include "messageboxhelper.h"
 
 
 class Presenter : public QObject
@@ -47,6 +50,9 @@ public slots:
     void mwMenuExportFinal();
     void mwMenuExportTags();
     void mwMenuAbout();
+
+private:
+    void importPlain();
 };
 
 #endif // PRESENTER_H
