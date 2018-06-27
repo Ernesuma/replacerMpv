@@ -58,6 +58,12 @@ void MainWindow::setTagMapModel(QAbstractItemModel *pTagMapModel)
     ui->tableView->setModel(pTagMapModel);
 }
 
+void MainWindow::setPlainText(const QString &text)
+{
+    // show the given text in the text edit
+    ui->textEdit_plain->setPlainText(text);
+}
+
 void MainWindow::setFinalText(const QString &text)
 {
     // show the final text in the text edit
