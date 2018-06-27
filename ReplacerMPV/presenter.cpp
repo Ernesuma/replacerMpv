@@ -254,13 +254,9 @@ void Presenter::importPlain()
         // convert to QDir object
         QDir importFilePath{tmpStr};
 
-        // TODO: delete debug output
-        qInfo() << importFilePath.absolutePath();
-
         // read files content
         QString plainText{};
-        bool bReadFileSuccess = FileHelper::readFile2String(importFilePath, plainText);
-        if (bReadFileSuccess)
+        if (FileHelper::readFile2String(importFilePath, plainText))
         {
             // set plain text in view (this will trigger model update)
             m_pMainWindow->setPlainText(plainText);
