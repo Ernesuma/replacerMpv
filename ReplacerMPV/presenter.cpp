@@ -204,7 +204,7 @@ void Presenter::mwMenuImportPlain()
 
 void Presenter::mwMenuImportTags()
 {
-    qInfo() << "Import Tags";
+    importTags();
 }
 
 void Presenter::mwMenuExportPlain()
@@ -264,6 +264,46 @@ void Presenter::importPlain()
         {
             // inform user about failed import
             MessageBoxHelper::warnMsgBox("Could not import chosen file:",
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+    }
+}
+
+void Presenter::importTags()
+{
+    // open file dialog
+    QString tmpStr = QFileDialog::getOpenFileName(m_pMainWindow,
+                                                  tr("Choose file to import tag list from"));
+    // if file has been chosen
+    if (!tmpStr.isNull())
+    {
+        // convert str of chosen file to QDir object
+        QDir importFilePath{tmpStr};
+
+        // read tags from file
+        tagMap tmpTagMap{};
+        if (FileHelper::readFile2TagMap(importFilePath, tmpTagMap))
+        {
+            // clear all old tags and add the read ones
+            m_pModel->clearAllTags();
+            foreach(auto key, tmpTagMap.uniqueKeys())
+            {
+                m_pModel->getTagMapModelRawPtr()->insert(key, tmpTagMap[key]);
+            }
+
+            // disable or enable the tag removal buttons
+            enableDisableTagRemovalBtns();
+
+            // inform user about successful tag import
+            MessageBoxHelper::infoMsgBox("Imported tag list from file:",
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        // reading tags from file failed
+        else
+        {
+            MessageBoxHelper::warnMsgBox("Failed to import file:",
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
