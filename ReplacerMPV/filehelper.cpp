@@ -5,10 +5,10 @@ FileHelper::FileHelper()
 
 }
 
-bool FileHelper::readFile2String(const QDir &path, QString &readText)
+FileHelper::ResultCode FileHelper::readFile2String(const QDir &path, QString &readText)
 {
-    // returns false if file coud not be read
-    bool retVal{false};
+    // returns error if file coud not be read
+    ResultCode retVal{ResultCode::ERROR_FILE_OPEN};
 
     // open provided file path
     QFile data(path.absolutePath());
@@ -18,8 +18,8 @@ bool FileHelper::readFile2String(const QDir &path, QString &readText)
         QTextStream in(&data);
         readText = in.readAll();
 
-        // will return true because of successful read
-        retVal = true;
+        // will return OK because of successful read
+        retVal = ResultCode::OK;
     }
     // close file
     data.close();
@@ -28,7 +28,7 @@ bool FileHelper::readFile2String(const QDir &path, QString &readText)
     return retVal;
 }
 
-int FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
+FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
 {
     // return codes:
     // 0: OK
@@ -36,7 +36,7 @@ int FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
     // 2: invalid file format
 
     // default code
-    int retVal{0};
+    ResultCode retVal{ResultCode::OK};
 
     // open in provided file path as data
     QFile data(path.absolutePath());
@@ -72,7 +72,7 @@ int FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
                 // print warning to log output
                 qWarning() << "WARNING: invalid tag list file to import";
 
-                retVal = 2;
+                retVal = ResultCode::ERROR_INVALID_FILE;
                 break;
             }
         }
@@ -80,7 +80,7 @@ int FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
     // could not open file for reading
     else
     {
-        retVal = 1;
+        retVal = ResultCode::ERROR_FILE_OPEN;
     }
     return retVal;
 }

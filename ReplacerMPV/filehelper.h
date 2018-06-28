@@ -12,9 +12,18 @@
 class FileHelper
 {
 public:
+    // define result codes for this classes methods
+    enum ResultCode
+    {
+        OK,
+        ERROR_FILE_OPEN,
+        ERROR_INVALID_FILE
+    };
+
     FileHelper();
-    static bool readFile2String(const QDir& path, QString& readText);
-    static int readFile2TagMap(const QDir& path, tagMap& tags);
+    static ResultCode readFile2String(const QDir& path, QString& readText);
+    static ResultCode readFile2TagMap(const QDir& path, tagMap& tags);
+
 };
 
 #endif // FILEHELPER_H

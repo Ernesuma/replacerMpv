@@ -250,7 +250,7 @@ void Presenter::importPlain()
 
         // read files content
         QString plainText{};
-        if (FileHelper::readFile2String(importFilePath, plainText))
+        if (FileHelper::ResultCode::OK == FileHelper::readFile2String(importFilePath, plainText))
         {
             // set plain text in view (this will trigger model update)
             m_pMainWindow->setPlainText(plainText);
@@ -284,7 +284,7 @@ void Presenter::importTags()
         // read tags from file
         tagMap tmpTagMap{};
         int readResult = FileHelper::readFile2TagMap(importFilePath, tmpTagMap);
-        if (0 == readResult)
+        if (FileHelper::ResultCode::OK == readResult)
         {
             // clear all old tags and add the read ones
             m_pModel->clearAllTags();
@@ -301,13 +301,13 @@ void Presenter::importTags()
                                          m_pMainWindow);
         }
         // reading tags from file failed
-        else if (1 == readResult)
+        else if (FileHelper::ResultCode::ERROR_FILE_OPEN == readResult)
         {
             MessageBoxHelper::warnMsgBox(tr("Failed to open file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
-        else if (2 == readResult)
+        else if (FileHelper::ResultCode::ERROR_INVALID_FILE == readResult)
         {
             MessageBoxHelper::warnMsgBox(tr("Invalid tag file:"),
                                          importFilePath.absolutePath(),
