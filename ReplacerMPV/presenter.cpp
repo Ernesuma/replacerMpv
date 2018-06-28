@@ -296,7 +296,7 @@ void Presenter::importTags()
             enableDisableTagRemovalBtns();
 
             // inform user about successful tag import
-            MessageBoxHelper::infoMsgBox(tr("Imported tag list from file:"),
+            MessageBoxHelper::infoMsgBox(tr("Import of tag list from file successful:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
