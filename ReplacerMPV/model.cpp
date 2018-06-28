@@ -25,7 +25,7 @@ TagMapModel *Model::getTagMapModelRawPtr()
     return &m_tagMapModel;
 }
 
-const tagMap &Model::getTagMap() const
+const TagMapModel::tagMap &Model::getTagMap() const
 {
     return m_tagMapModel.getTagMap();
 }

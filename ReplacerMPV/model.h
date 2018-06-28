@@ -21,7 +21,7 @@ public:
     // get access to the raw pointer to the tag map class
     // USE WITH CARE!
     TagMapModel* getTagMapModelRawPtr();
-    const tagMap& getTagMap() const;
+    const TagMapModel::tagMap& getTagMap() const;
 
     // setter
     void setPlainText(const QString &text);

@@ -118,11 +118,7 @@ void Presenter::mwPushBtnAddTag_clicked()
     m_pMainWindow->focusAddTagLineEdit();
 
     // enable the tag removal buttons
-    if (!m_pModel->isTagMapEmpty())
-    {
-        m_pMainWindow->enableRemoveSelTagsBtn(true);
-        m_pMainWindow->enableRemoveAllTagsBtn(true);
-    }
+    enableDisableTagRemovalBtns();
 }
 
 void Presenter::mwPushBtnRemoveSelTags()
@@ -140,13 +136,8 @@ void Presenter::mwPushBtnRemoveSelTags()
             qCritical("Could not remove the selected tags");
         }
     }
-
-    // disable the tag removal buttons
-    if (m_pModel->isTagMapEmpty())
-    {
-        m_pMainWindow->enableRemoveSelTagsBtn(false);
-        m_pMainWindow->enableRemoveAllTagsBtn(false);
-    }
+    // disable the tag removal buttons if neccessary
+    enableDisableTagRemovalBtns();
 }
 
 void Presenter::mwPushBtnRemoveAllTags()
@@ -166,12 +157,8 @@ void Presenter::mwPushBtnRemoveAllTags()
         m_pModel->clearAllTags();
         //m_pMainWindow->clearSelectionOfTagMapTableView();
 
-        // disable the tag removal buttons
-        if (m_pModel->isTagMapEmpty())
-        {
-            m_pMainWindow->enableRemoveSelTagsBtn(false);
-            m_pMainWindow->enableRemoveAllTagsBtn(false);
-        }
+        // enable or disable the tag removal buttons
+        enableDisableTagRemovalBtns();
     }
 }
 
@@ -212,12 +199,12 @@ void Presenter::mwMenuExit()
 
 void Presenter::mwMenuImportPlain()
 {
-    qInfo() << "Import Plain";
+    importPlain();
 }
 
 void Presenter::mwMenuImportTags()
 {
-    qInfo() << "Import Tags";
+    importTags();
 }
 
 void Presenter::mwMenuExportPlain()
@@ -238,4 +225,99 @@ void Presenter::mwMenuExportTags()
 void Presenter::mwMenuAbout()
 {
     qInfo() << "About";
+}
+
+void Presenter::enableDisableTagRemovalBtns()
+{
+    // disable the tag removal buttons depending on the tag map emptiness
+    m_pMainWindow->enableRemoveSelTagsBtn(!m_pModel->isTagMapEmpty());
+    m_pMainWindow->enableRemoveAllTagsBtn(!m_pModel->isTagMapEmpty());
+}
+
+void Presenter::importPlain()
+{
+    qInfo() << "import plain";
+
+    // open file dialog
+    QString tmpStr{QFileDialog::getOpenFileName(m_pMainWindow,
+                                                tr("Choose file to import plain text from"))};
+
+    // if file dialog returned something (not cancelled by user)
+    if (!tmpStr.isNull())
+    {
+        // convert to QDir object
+        QDir importFilePath{tmpStr};
+
+        // read files content
+        QString plainText{};
+        if (FileHelper::ResultCode::OK == FileHelper::readFile2String(importFilePath, plainText))
+        {
+            // set plain text in view (this will trigger model update)
+            m_pMainWindow->setPlainText(plainText);
+
+            // inform user about succesfull import
+            MessageBoxHelper::infoMsgBox("Imported plain text from file:",
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        else
+        {
+            // inform user about failed import
+            MessageBoxHelper::warnMsgBox("Could not import chosen file:",
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+    }
+}
+
+void Presenter::importTags()
+{
+    // open file dialog
+    QString tmpStr = QFileDialog::getOpenFileName(m_pMainWindow,
+                                                  tr("Choose file to import tag list from"));
+    // if file has been chosen
+    if (!tmpStr.isNull())
+    {
+        // convert str of chosen file to QDir object
+        QDir importFilePath{tmpStr};
+
+        // read tags from file
+        TagMapModel::tagMap tmpTagMap{};
+        int readResult = FileHelper::readFile2TagMap(importFilePath, tmpTagMap);
+        if (FileHelper::ResultCode::OK == readResult)
+        {
+            // clear all old tags and add the read ones
+            m_pModel->clearAllTags();
+            foreach(auto key, tmpTagMap.uniqueKeys())
+            {
+                m_pModel->getTagMapModelRawPtr()->insert(key, tmpTagMap[key]);
+            }
+            // disable or enable the tag removal buttons
+            enableDisableTagRemovalBtns();
+
+            // inform user about successful tag import
+            MessageBoxHelper::infoMsgBox(tr("Import of tag list from file successful:"),
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        // reading tags from file failed
+        else if (FileHelper::ResultCode::ERROR_FILE_OPEN == readResult)
+        {
+            MessageBoxHelper::warnMsgBox(tr("Failed to open file:"),
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        else if (FileHelper::ResultCode::ERROR_INVALID_FILE == readResult)
+        {
+            MessageBoxHelper::warnMsgBox(tr("Invalid tag file:"),
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        else
+        {
+            MessageBoxHelper::warnMsgBox(tr("Unknown Error during import of tag file:"),
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+    }
 }
