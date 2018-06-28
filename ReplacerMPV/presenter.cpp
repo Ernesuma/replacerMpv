@@ -236,12 +236,9 @@ void Presenter::enableDisableTagRemovalBtns()
 
 void Presenter::importPlain()
 {
-    qInfo() << "import plain";
-
     // open file dialog
     QString tmpStr{QFileDialog::getOpenFileName(m_pMainWindow,
                                                 tr("Choose file to import plain text from"))};
-
     // if file dialog returned something (not cancelled by user)
     if (!tmpStr.isNull())
     {
