@@ -2,7 +2,7 @@
 
 bool Replacer::replace(const QString &plain,
                        QString &final,
-                       const tagMap &tags)
+                       const TagMapModel::tagMap &tags)
 {
     // get std::string to work on with regular expressions
     std::string finalStd{plain.toStdString()};

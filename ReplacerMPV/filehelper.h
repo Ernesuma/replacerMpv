@@ -22,8 +22,7 @@ public:
 
     FileHelper();
     static ResultCode readFile2String(const QDir& path, QString& readText);
-    static ResultCode readFile2TagMap(const QDir& path, tagMap& tags);
-
+    static ResultCode readFile2TagMap(const QDir& path, TagMapModel::tagMap& tags);
 };
 
 #endif // FILEHELPER_H

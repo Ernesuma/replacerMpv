@@ -19,7 +19,7 @@ public:
     // replace method
     static bool replace(const QString& plain,
                         QString& final,
-                        const tagMap& tags);
+                        const TagMapModel::tagMap& tags);
 
 };
 

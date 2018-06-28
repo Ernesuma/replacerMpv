@@ -28,7 +28,7 @@ FileHelper::ResultCode FileHelper::readFile2String(const QDir &path, QString &re
     return retVal;
 }
 
-FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
+FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path, TagMapModel::tagMap &tags)
 {
     // return codes:
     // 0: OK

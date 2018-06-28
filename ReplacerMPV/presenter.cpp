@@ -282,7 +282,7 @@ void Presenter::importTags()
         QDir importFilePath{tmpStr};
 
         // read tags from file
-        tagMap tmpTagMap{};
+        TagMapModel::tagMap tmpTagMap{};
         int readResult = FileHelper::readFile2TagMap(importFilePath, tmpTagMap);
         if (FileHelper::ResultCode::OK == readResult)
         {

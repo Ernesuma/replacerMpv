@@ -6,13 +6,14 @@
 #include <QObject>
 #include <QMap>
 
-typedef QString tagMapKey;
-typedef QString tagMapValue;
-typedef QMap<tagMapKey, tagMapValue> tagMap;
-
 class TagMapModel : public QAbstractTableModel
 {
     Q_OBJECT
+
+public:
+    typedef QString tagMapKey;
+    typedef QString tagMapValue;
+    typedef QMap<tagMapKey, tagMapValue> tagMap;
 
 private:
     // private Member
