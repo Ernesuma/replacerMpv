@@ -16,7 +16,7 @@ public:
     // getter
     const QString &getPlainText() const;
     const QString &getFinalText() const;
-    const bool isTagMapEmpty() const;
+    bool isTagMapEmpty() const;
 
     // get access to the raw pointer to the tag map class
     // USE WITH CARE!
