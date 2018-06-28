@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QString>
 #include <QTextStream>
+#include <QRegularExpression>
 
 #include "tagmapmodel.h"
 
@@ -13,7 +14,7 @@ class FileHelper
 public:
     FileHelper();
     static bool readFile2String(const QDir& path, QString& readText);
-    static bool readFile2TagMap(const QDir& path, tagMap& tags);
+    static int readFile2TagMap(const QDir& path, tagMap& tags);
 };
 
 #endif // FILEHELPER_H

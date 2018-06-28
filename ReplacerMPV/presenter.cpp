@@ -283,7 +283,8 @@ void Presenter::importTags()
 
         // read tags from file
         tagMap tmpTagMap{};
-        if (FileHelper::readFile2TagMap(importFilePath, tmpTagMap))
+        int readResult = FileHelper::readFile2TagMap(importFilePath, tmpTagMap);
+        if (0 == readResult)
         {
             // clear all old tags and add the read ones
             m_pModel->clearAllTags();
@@ -295,14 +296,26 @@ void Presenter::importTags()
             enableDisableTagRemovalBtns();
 
             // inform user about successful tag import
-            MessageBoxHelper::infoMsgBox("Imported tag list from file:",
+            MessageBoxHelper::infoMsgBox(tr("Imported tag list from file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
         // reading tags from file failed
+        else if (1 == readResult)
+        {
+            MessageBoxHelper::warnMsgBox(tr("Failed to open file:"),
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
+        else if (2 == readResult)
+        {
+            MessageBoxHelper::warnMsgBox(tr("Invalid tag file:"),
+                                         importFilePath.absolutePath(),
+                                         m_pMainWindow);
+        }
         else
         {
-            MessageBoxHelper::warnMsgBox("Failed to import file:",
+            MessageBoxHelper::warnMsgBox(tr("Unknown Error during import of tag file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }

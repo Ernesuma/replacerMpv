@@ -28,12 +28,17 @@ bool FileHelper::readFile2String(const QDir &path, QString &readText)
     return retVal;
 }
 
-bool FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
+int FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
 {
-    // return false if reading 2 tag map fails
-    bool retVal{false};
+    // return codes:
+    // 0: OK
+    // 1: file not readable
+    // 2: invalid file format
 
-    // open in path provided file as data
+    // default code
+    int retVal{0};
+
+    // open in provided file path as data
     QFile data(path.absolutePath());
     if (data.open(QFile::ReadOnly | QFile::Text))
     {
@@ -42,38 +47,40 @@ bool FileHelper::readFile2TagMap(const QDir &path, tagMap &tags)
 
         // declare string row
         QString row{};
-
-        // return true if reading was successful
-        retVal = true;
+        QString validRowPattern{"^([a-zA-Z0-9]*),(.*)$"};
+        QRegularExpression reValidRow(validRowPattern);
 
         // while text stream 'in' is not at end
         while (!in.atEnd())
         {
-            // read one line from stream to string 'row' and split it
-            // on the seperator ','
+            // read one line from stream to string 'row' and use regex
+            // to check for validity
             in.readLineInto(&row);
-            QStringList rowList = row.split(",");
 
-            // TODO: delete debug output
-            qInfo() << rowList;
-
-            // check if exact two items are in the split row and add the
-            // row parts to the tag map
-            if (2 == rowList.size())
+            // check if row has valid format
+            QRegularExpressionMatch validRowMatch = reValidRow.match(row);
+            if (validRowMatch.hasMatch())
             {
-                tags[rowList[0]] = rowList[1];
+                // add the key and the value to the tag map
+                auto key = validRowMatch.captured(1);
+                auto value = validRowMatch.captured(2);
+                tags[key] = value;
             }
-            // else reading failed due invalid file format
+            // row not valid
             else
             {
                 // print warning to log output
                 qWarning() << "WARNING: invalid tag list file to import";
 
-                // return false because reading failed and end the loop
-                retVal = false;
+                retVal = 2;
                 break;
             }
         }
+    }
+    // could not open file for reading
+    else
+    {
+        retVal = 1;
     }
     return retVal;
 }
