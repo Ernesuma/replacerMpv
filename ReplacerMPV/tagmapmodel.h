@@ -5,12 +5,14 @@
 #include <QAbstractTableModel>
 #include <QObject>
 #include <QMap>
+#include <QRegularExpression>
 
 class TagMapModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
+    // define types of the tag map
     typedef QString tagMapKey;
     typedef QString tagMapValue;
     typedef QMap<tagMapKey, tagMapValue> tagMap;
@@ -20,6 +22,9 @@ private:
     tagMap m_map{};
     tagMapKey m_newKey{""};
     tagMapKey m_newValue{""};
+
+    // define regex to test key validity
+    static const QRegularExpression reKeyValid;
 
 public:
     // declare constructors
@@ -45,6 +50,7 @@ public:
     bool insert(const tagMapKey& key, const tagMapValue& value);
     bool removeRows(const QModelIndexList rows);
     bool removeAllRows();
+    static bool isKeyValid(const QString& key);
 
     // getter to access the map as const reference
     const tagMap& getTagMap() const {return m_map;};

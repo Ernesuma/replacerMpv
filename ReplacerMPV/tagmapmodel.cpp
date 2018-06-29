@@ -1,6 +1,8 @@
 #include "tagmapmodel.h"
 //#include "algorithm"
 
+const QRegularExpression TagMapModel::reKeyValid{"^[a-zA-Z0-9_-]+$"};
+
 TagMapModel::TagMapModel(QObject *pParent):
     QAbstractTableModel(pParent),
     m_map()
@@ -226,4 +228,10 @@ bool TagMapModel::removeAllRows()
         this->removeRow(row);
     }
     return true;
+}
+
+bool TagMapModel::isKeyValid(const QString &key)
+{
+    QRegularExpressionMatch matchObj = reKeyValid.match(key);
+    return matchObj.hasMatch();
 }
