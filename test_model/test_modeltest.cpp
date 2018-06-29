@@ -39,7 +39,7 @@ Test_modelTest::Test_modelTest()
 void Test_modelTest::test_clear()
 {
     // test clearPlainText
-    Model model{Model()};
+    Model model;
     model.setPlainText(m_testText01);
     QVERIFY(!model.getPlainText().isEmpty());
     model.clearPlainText();
@@ -59,7 +59,7 @@ void Test_modelTest::test_clear()
  */
 void Test_modelTest::test_setPlainText()
 {
-    Model model = Model();
+    Model model;
     model.setPlainText(m_testText01);
     QCOMPARE(model.getPlainText(), m_testText01);
 }
@@ -71,7 +71,7 @@ void Test_modelTest::test_setPlainText()
  */
 void Test_modelTest::test_appendPlainText()
 {
-    Model model{Model()};
+    Model model;
     model.setPlainText(m_testText01);
     model.appendPlainText(m_testText02);
     QCOMPARE(model.getPlainText(), m_testText01 + m_testText02);
