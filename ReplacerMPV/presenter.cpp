@@ -106,19 +106,33 @@ void Presenter::mwPushBtnAddTag_clicked()
 {
     qInfo() << "push button 'add tag' clicked";
 
-    // read the values from the line edits
+    // read the tag from the line edit
     QString tag = m_pMainWindow->getNewTag();
-    QString value = m_pMainWindow->getNewTagValue();
 
-    // provide the values to the model
-    m_pModel->addTag2List(tag, value);
+    // check tag for formal validity
+    if (TagMapModel::isKeyValid(tag))
+    {
+        // read the value from the line edit
+        QString value = m_pMainWindow->getNewTagValue();
 
-    // clear the line edits and set focus to conveniently input the next tag
-    m_pMainWindow->clearAddTagLineEdits();
-    m_pMainWindow->focusAddTagLineEdit();
+        // provide the values to the model
+        m_pModel->addTag2List(tag, value);
 
-    // enable the tag removal buttons
-    enableDisableTagRemovalBtns();
+        // clear the line edits and set focus to conveniently input the next tag
+        m_pMainWindow->clearAddTagLineEdits();
+        m_pMainWindow->focusAddTagLineEdit();
+
+        // enable the tag removal buttons
+        enableDisableTagRemovalBtns();
+    }
+    else
+    {
+        // tag invalid: show message to user and set focut to tag line edit
+        MessageBoxHelper::warnMsgBox(tr("Invalid tag: ") + "'" + tag + "'",
+                                     tr("Only use characters from set [a-zA-Z0-9_-]"),
+                                     m_pMainWindow);
+        m_pMainWindow->focusAddTagLineEdit();
+    }
 }
 
 void Presenter::mwPushBtnRemoveSelTags()
