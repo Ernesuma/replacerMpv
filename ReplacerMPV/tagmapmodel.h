@@ -51,6 +51,7 @@ public:
     bool removeRows(const QModelIndexList rows);
     bool removeAllRows();
     static bool isKeyValid(const QString& key);
+    static QString filterKey(const QString& key);
 
     // getter to access the map as const reference
     const tagMap& getTagMap() const {return m_map;};

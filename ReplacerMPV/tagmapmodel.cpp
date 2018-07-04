@@ -56,7 +56,8 @@ bool TagMapModel::setData(const QModelIndex &index, const QVariant &value, int r
             // remove entry from map
             m_map.remove(keys[index.row()]);
             // add value with new key
-            m_map[value.toString()] = tmpVal;
+            QString key = filterKey(value.toString());
+            m_map[key] = tmpVal;
         }
         // not column 0 means to set the value
         else
@@ -234,4 +235,17 @@ bool TagMapModel::isKeyValid(const QString &key)
 {
     QRegularExpressionMatch matchObj = reKeyValid.match(key);
     return matchObj.hasMatch();
+}
+
+QString TagMapModel::filterKey(const QString &key)
+{
+    QString returnString{""};
+    foreach (auto c, key)
+    {
+        if (isKeyValid(c))
+        {
+            returnString.append(c);
+        }
+    }
+    return returnString;
 }
