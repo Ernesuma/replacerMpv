@@ -60,6 +60,10 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     // connect the tag map model to the tag map list widget
     // this way the model will be updated directly by the view et vice versa
     m_pMainWindow->setTagMapModel(m_pModel->getTagMapModelRawPtr());
+
+    // connect the tag maps error signals to this presenter
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(filteredKey(QString,QString)),
+                     this, SLOT(tmmFilteredKey(QString,QString)));
 }
 
 void Presenter::mwPushBtnReplaceClicked()
@@ -239,6 +243,14 @@ void Presenter::mwMenuExportTags()
 void Presenter::mwMenuAbout()
 {
     qInfo() << "About";
+}
+
+void Presenter::tmmFilteredKey(QString orig, QString filtered) const
+{
+    MessageBoxHelper::warnMsgBox("Filtered out invalid characters from changed key. Instead of '" +
+                                 orig + "' there will be '" + filtered + "' used.",
+                                 "Next time please use only characters from set:\n[A-Za-z0-9_-]",
+                                 m_pMainWindow);
 }
 
 void Presenter::enableDisableTagRemovalBtns()

@@ -57,6 +57,12 @@ bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, in
             m_map.remove(keys[index.row()]);
             // get the new map key; filer invalid characters
             QString key = filterKey(newValue.toString());
+            if (newValue.toString() != key)
+            {
+                // had to filter out invalid characters
+                emit filteredKey(newValue.toString(), key);
+            }
+
             // add value with new key
             m_map[key] = tmpMapValue;
         }

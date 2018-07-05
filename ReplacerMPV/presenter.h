@@ -51,6 +51,9 @@ public slots:
     void mwMenuExportTags();
     void mwMenuAbout();
 
+    // slots for the tag map models error messages
+    void tmmFilteredKey(QString orig, QString filtered) const;
+
 private:
     void enableDisableTagRemovalBtns();
     void importPlain();

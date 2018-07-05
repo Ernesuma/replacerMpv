@@ -55,6 +55,9 @@ public:
 
     // getter to access the map as const reference
     const tagMap& getTagMap() const {return m_map;};
+
+signals:
+    void filteredKey(const QString orig, const QString filtered);
 };
 
 #endif // TAGMAPMODEL_H
