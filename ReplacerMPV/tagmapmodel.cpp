@@ -273,6 +273,11 @@ bool TagMapModel::isKeyValid(const QString &key)
  */
 QString TagMapModel::filterKey(const QString &key)
 {
+    // if the key is valid, return the key
+    if (isKeyValid(key))
+    {
+        return key;
+    }
     // if the key is invalid, remove every invalid character
     QString returnString{""};
     foreach (auto c, key)
