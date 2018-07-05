@@ -25,6 +25,8 @@ private:
 
     // define regex to test key validity
     static const QRegularExpression reKeyValid;
+    // give a string for messages to show valid characters for map key
+    static const QString validKeyChars;
 
 public:
     // declare constructors
@@ -52,6 +54,7 @@ public:
     bool removeAllRows();
     static bool isKeyValid(const QString& key);
     static QString filterKey(const QString& key);
+    static const QString &getValidKeyCharsString();
 
     // getter to access the map as const reference
     const tagMap& getTagMap() const {return m_map;};

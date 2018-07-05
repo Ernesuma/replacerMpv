@@ -2,6 +2,7 @@
 //#include "algorithm"
 
 const QRegularExpression TagMapModel::reKeyValid{"^[a-zA-Z0-9_-]+$"};
+const QString TagMapModel::validKeyChars{"[a-zA-Z0-9_-]"};
 
 TagMapModel::TagMapModel(QObject *pParent):
     QAbstractTableModel(pParent),
@@ -266,4 +267,9 @@ QString TagMapModel::filterKey(const QString &key)
         }
     }
     return returnString;
+}
+
+const QString &TagMapModel::getValidKeyCharsString()
+{
+    return validKeyChars;
 }

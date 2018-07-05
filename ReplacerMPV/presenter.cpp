@@ -132,8 +132,8 @@ void Presenter::mwPushBtnAddTag_clicked()
     else
     {
         // tag invalid: show message to user and set focut to tag line edit
-        MessageBoxHelper::warnMsgBox(tr("Invalid tag: ") + "'" + tag + "'",
-                                     tr("Only use characters from set [a-zA-Z0-9_-]"),
+        MessageBoxHelper::warnMsgBox(tr("Invalid tag: ") + "'" + tag + tr("'"),
+                                     tr("Only use characters from set\n: ") + TagMapModel::getValidKeyCharsString(),
                                      m_pMainWindow);
         m_pMainWindow->focusAddTagLineEdit();
     }
@@ -247,9 +247,9 @@ void Presenter::mwMenuAbout()
 
 void Presenter::tmmFilteredKey(QString orig, QString filtered) const
 {
-    MessageBoxHelper::warnMsgBox("Filtered out invalid characters from changed key. Instead of '" +
-                                 orig + "' there will be '" + filtered + "' used.",
-                                 "Next time please use only characters from set:\n[A-Za-z0-9_-]",
+    MessageBoxHelper::warnMsgBox(tr("Filtered out invalid characters from changed key. Instead of '") +
+                                 orig + tr("' there will be '") + filtered + tr("' used."),
+                                 tr("Next time please use only characters from set:\n") + TagMapModel::getValidKeyCharsString() + tr("."),
                                  m_pMainWindow);
 }
 
