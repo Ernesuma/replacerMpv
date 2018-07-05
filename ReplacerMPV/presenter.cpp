@@ -108,8 +108,6 @@ void Presenter::mwPushBtnC2CFinalClicked() const
 
 void Presenter::mwPushBtnAddTag_clicked()
 {
-    qInfo() << "push button 'add tag' clicked";
-
     // read the tag from the line edit
     QString tag = m_pMainWindow->getNewTag();
 
@@ -141,8 +139,6 @@ void Presenter::mwPushBtnAddTag_clicked()
 
 void Presenter::mwPushBtnRemoveSelTags()
 {
-    qInfo() << "remove selected tags";
-
     // identify the selected rows
     const QItemSelectionModel* pSelect{m_pMainWindow->getTagMapSelection()};
     QModelIndexList rows = pSelect->selectedRows();
@@ -279,14 +275,14 @@ void Presenter::importPlain()
             m_pMainWindow->setPlainText(plainText);
 
             // inform user about succesfull import
-            MessageBoxHelper::infoMsgBox("Imported plain text from file:",
+            MessageBoxHelper::infoMsgBox(tr("Imported plain text from file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
         else
         {
             // inform user about failed import
-            MessageBoxHelper::warnMsgBox("Could not import chosen file:",
+            MessageBoxHelper::warnMsgBox(tr("Could not import chosen file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
