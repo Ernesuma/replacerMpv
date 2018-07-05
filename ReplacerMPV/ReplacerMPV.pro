@@ -25,9 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    presenter.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    presenter.h \
     mainwindow.h
 
 FORMS += \
