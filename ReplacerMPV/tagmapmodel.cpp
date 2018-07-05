@@ -145,7 +145,7 @@ QVariant TagMapModel::headerData(int section, Qt::Orientation orientation, int r
         {
             if (0 == section)
             {
-                return QString("Key");
+                return QString("Tag");
             }
             else
             {

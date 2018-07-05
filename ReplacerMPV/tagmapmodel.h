@@ -62,7 +62,7 @@ public:
 signals:
     void setData_filteredKey(const QString orig, const QString filtered);
     void setData_emptyKey();
-    void setData_doubletKey(const QString key);
+    void setData_doubletKey(const QString tag);
 };
 
 #endif // TAGMAPMODEL_H

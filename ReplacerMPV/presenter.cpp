@@ -245,26 +245,30 @@ void Presenter::mwMenuAbout()
     qInfo() << "About";
 }
 
-void Presenter::tmmFilteredKey(const QString orig, const QString filtered) const
+void Presenter::tmmFilteredKey(const QString original,
+                               const QString filtered) const
 {
-    MessageBoxHelper::warnMsgBox(tr("Filtered out invalid characters from changed key. Instead of '") +
-                                 orig + tr("' there will be '") + filtered + tr("' used."),
-                                 tr("Next time please use only characters from set:\n") + TagMapModel::getValidKeyCharsString() + tr("."),
-                                 m_pMainWindow);
+    MessageBoxHelper::warnMsgBox(
+        tr("Filtered out invalid characters from changed tag. Instead of '") +
+            original + tr("' there will be '") + filtered + tr("' used."),
+        tr("Next time please use only characters from set:\n") +
+            TagMapModel::getValidKeyCharsString() + tr("."),
+        m_pMainWindow);
 }
 
 void Presenter::tmmEmptyKey() const
 {
-    MessageBoxHelper::warnMsgBox(tr("Empty key is not allowed"),
-                                 tr("Aborting key change!"),
+    MessageBoxHelper::warnMsgBox(tr("Empty tag is not allowed."),
+                                 tr("Aborting tag change!"),
                                  m_pMainWindow);
 }
 
-void Presenter::tmmDoubletKey(const QString key) const
+void Presenter::tmmDoubletKey(const QString tag) const
 {
-    MessageBoxHelper::warnMsgBox(tr("The key '") + key + tr("' is already in use."),
-                                 tr("Aborting key change!"),
-                                 m_pMainWindow);
+    MessageBoxHelper::warnMsgBox(
+        tr("The tag '") + tag + tr("' is already in use."),
+        tr("Aborting tag change!"),
+        m_pMainWindow);
 }
 
 void Presenter::enableDisableTagRemovalBtns()

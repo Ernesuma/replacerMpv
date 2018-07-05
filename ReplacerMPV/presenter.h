@@ -52,9 +52,9 @@ public slots:
     void mwMenuAbout();
 
     // slots for the tag map models error messages
-    void tmmFilteredKey(const QString orig, const QString filtered) const;
+    void tmmFilteredKey(const QString original, const QString filtered) const;
     void tmmEmptyKey() const;
-    void tmmDoubletKey(const QString key) const;
+    void tmmDoubletKey(const QString tag) const;
 
 private:
     void enableDisableTagRemovalBtns();
