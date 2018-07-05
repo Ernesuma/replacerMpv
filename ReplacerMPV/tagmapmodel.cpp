@@ -52,20 +52,36 @@ bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, in
         // column 0 means to set the map key to newValue
         if (index.column() == 0)
         {
-            // save value
-            tagMapValue tmpMapValue = m_map[keys[index.row()]];
-            // remove entry from map
-            m_map.remove(keys[index.row()]);
             // get the new map key; filer invalid characters
-            QString key = filterKey(newValue.toString());
-            if (newValue.toString() != key)
+            QString newKey = filterKey(newValue.toString());
+
+            // check new key
+            // -------------
+            if (newValue.toString() != newKey)
             {
                 // had to filter out invalid characters
-                emit filteredKey(newValue.toString(), key);
+                emit setData_filteredKey(newValue.toString(), newKey);
             }
-
-            // add value with new key
-            m_map[key] = tmpMapValue;
+            if (newKey.isEmpty())
+            {
+                // new key is empty
+                emit setData_emptyKey();
+            }
+            else if (keys.contains(newKey))
+            {
+                // new key already in map
+                emit setData_doubletKey(newKey);
+            }
+            else
+            {
+                // passed checks --> change key
+                // save map value
+                tagMapValue tmpMapValue = m_map[keys[index.row()]];
+                // remove entry from map
+                m_map.remove(keys[index.row()]);
+                // insert value with new key
+                m_map[newKey] = tmpMapValue;
+            }
         }
         // not column 0 means to set the map value to newValue
         else

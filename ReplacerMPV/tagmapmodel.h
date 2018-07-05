@@ -60,7 +60,9 @@ public:
     const tagMap& getTagMap() const {return m_map;};
 
 signals:
-    void filteredKey(const QString orig, const QString filtered);
+    void setData_filteredKey(const QString orig, const QString filtered);
+    void setData_emptyKey();
+    void setData_doubletKey(const QString key);
 };
 
 #endif // TAGMAPMODEL_H

@@ -62,8 +62,12 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     m_pMainWindow->setTagMapModel(m_pModel->getTagMapModelRawPtr());
 
     // connect the tag maps error signals to this presenter
-    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(filteredKey(QString,QString)),
-                     this, SLOT(tmmFilteredKey(QString,QString)));
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_filteredKey(const QString, const QString)),
+                     this, SLOT(tmmFilteredKey(const QString, const QString)));
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_emptyKey()),
+                     this, SLOT(tmmEmptyKey()));
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_doubletKey(const QString)),
+                     this, SLOT(tmmDoubletKey(const QString)));
 }
 
 void Presenter::mwPushBtnReplaceClicked()
@@ -241,11 +245,25 @@ void Presenter::mwMenuAbout()
     qInfo() << "About";
 }
 
-void Presenter::tmmFilteredKey(QString orig, QString filtered) const
+void Presenter::tmmFilteredKey(const QString orig, const QString filtered) const
 {
     MessageBoxHelper::warnMsgBox(tr("Filtered out invalid characters from changed key. Instead of '") +
                                  orig + tr("' there will be '") + filtered + tr("' used."),
                                  tr("Next time please use only characters from set:\n") + TagMapModel::getValidKeyCharsString() + tr("."),
+                                 m_pMainWindow);
+}
+
+void Presenter::tmmEmptyKey() const
+{
+    MessageBoxHelper::warnMsgBox(tr("Empty key is not allowed"),
+                                 tr("Aborting key change!"),
+                                 m_pMainWindow);
+}
+
+void Presenter::tmmDoubletKey(const QString key) const
+{
+    MessageBoxHelper::warnMsgBox(tr("The key '") + key + tr("' is already in use."),
+                                 tr("Aborting key change!"),
                                  m_pMainWindow);
 }
 
