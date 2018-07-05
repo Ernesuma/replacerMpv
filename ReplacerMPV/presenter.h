@@ -30,7 +30,7 @@ public:
     Presenter(MainWindow* pMainWindow,
               Model* pModel);
 
-public slots:
+private slots:
     // slots for the main windows (mw) signals
     void mwPushBtnReplaceClicked();
     void mwPushBtnC2CPlainClicked() const;
@@ -41,15 +41,20 @@ public slots:
     void mwTextEditPlainChanged();
     void mwMenuNew();
     void mwMenuLoad();
-    void mwMenuSave();
-    void mwMenuSaveAs();
+    void mwMenuSave() const;
+    void mwMenuSaveAs() const;
     void mwMenuExit();
     void mwMenuImportPlain();
     void mwMenuImportTags();
-    void mwMenuExportPlain();
-    void mwMenuExportFinal();
-    void mwMenuExportTags();
-    void mwMenuAbout();
+    void mwMenuExportPlain() const;
+    void mwMenuExportFinal() const;
+    void mwMenuExportTags() const;
+    void mwMenuAbout() const;
+
+    // slots for the tag map models error messages
+    void tmmFilteredKey(const QString original, const QString filtered) const;
+    void tmmEmptyKey() const;
+    void tmmDoubletKey(const QString tag) const;
 
 private:
     void enableDisableTagRemovalBtns();

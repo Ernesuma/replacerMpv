@@ -60,6 +60,14 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     // connect the tag map model to the tag map list widget
     // this way the model will be updated directly by the view et vice versa
     m_pMainWindow->setTagMapModel(m_pModel->getTagMapModelRawPtr());
+
+    // connect the tag maps error signals to this presenter
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_filteredKey(const QString, const QString)),
+                     this, SLOT(tmmFilteredKey(const QString, const QString)));
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_emptyKey()),
+                     this, SLOT(tmmEmptyKey()));
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_doubletKey(const QString)),
+                     this, SLOT(tmmDoubletKey(const QString)));
 }
 
 void Presenter::mwPushBtnReplaceClicked()
@@ -104,27 +112,47 @@ void Presenter::mwPushBtnC2CFinalClicked() const
 
 void Presenter::mwPushBtnAddTag_clicked()
 {
-    qInfo() << "push button 'add tag' clicked";
-
-    // read the values from the line edits
+    // read the tag from the line edit
     QString tag = m_pMainWindow->getNewTag();
-    QString value = m_pMainWindow->getNewTagValue();
 
-    // provide the values to the model
-    m_pModel->addTag2List(tag, value);
+    // check tag for syntactically validity
+    if (!TagMapModel::isKeyValid(tag))
+    {
+        // tag invalid: show message to user and set focus to tag line edit
+        MessageBoxHelper::warnMsgBox(
+            tr("Invalid tag: ") + "'" + tag + tr("'"),
+            tr("Only use characters from set:\n") + TagMapModel::getValidKeyCharsString(),
+            m_pMainWindow);
+        m_pMainWindow->focusAddTagLineEdit();
+    }
+    else if (m_pModel->getTagMapModelRawPtr()->isKeyInUse(tag))
+    {
+        // tag is already in use
+        // show message and set focus to tag line edit
+        MessageBoxHelper::warnMsgBox(
+            tr("The key '") + tag + tr("' is already in use."),
+            tr("Aborting to add new tag!"),
+            m_pMainWindow);
+        m_pMainWindow->focusAddTagLineEdit();
+    }
+    else
+    {
+        // tag is valid
 
-    // clear the line edits and set focus to conveniently input the next tag
-    m_pMainWindow->clearAddTagLineEdits();
-    m_pMainWindow->focusAddTagLineEdit();
-
-    // enable the tag removal buttons
-    enableDisableTagRemovalBtns();
+        // read the value from the line edit
+        QString value = m_pMainWindow->getNewTagValue();
+        // provide the values to the model
+        m_pModel->addTag2List(tag, value);
+        // clear the line edits and set focus to conveniently input the next tag
+        m_pMainWindow->clearAddTagLineEdits();
+        m_pMainWindow->focusAddTagLineEdit();
+        // enable the tag removal buttons
+        enableDisableTagRemovalBtns();
+    }
 }
 
 void Presenter::mwPushBtnRemoveSelTags()
 {
-    qInfo() << "remove selected tags";
-
     // identify the selected rows
     const QItemSelectionModel* pSelect{m_pMainWindow->getTagMapSelection()};
     QModelIndexList rows = pSelect->selectedRows();
@@ -181,12 +209,12 @@ void Presenter::mwMenuLoad()
     qInfo() << "Load";
 }
 
-void Presenter::mwMenuSave()
+void Presenter::mwMenuSave() const
 {
     qInfo() << "Save";
 }
 
-void Presenter::mwMenuSaveAs()
+void Presenter::mwMenuSaveAs() const
 {
     qInfo() << "SaveAs";
 }
@@ -207,24 +235,50 @@ void Presenter::mwMenuImportTags()
     importTags();
 }
 
-void Presenter::mwMenuExportPlain()
+void Presenter::mwMenuExportPlain() const
 {
     qInfo() << "Export Plain";
 }
 
-void Presenter::mwMenuExportFinal()
+void Presenter::mwMenuExportFinal() const
 {
     qInfo() << "Export Final";
 }
 
-void Presenter::mwMenuExportTags()
+void Presenter::mwMenuExportTags() const
 {
     qInfo() << "Export Tags";
 }
 
-void Presenter::mwMenuAbout()
+void Presenter::mwMenuAbout() const
 {
     qInfo() << "About";
+}
+
+void Presenter::tmmFilteredKey(const QString original,
+                               const QString filtered) const
+{
+    MessageBoxHelper::warnMsgBox(
+        tr("Filtered out invalid characters from changed tag. Instead of '") +
+            original + tr("' there will be '") + filtered + tr("' used."),
+        tr("Next time please use only characters from set:\n") +
+            TagMapModel::getValidKeyCharsString() + tr("."),
+        m_pMainWindow);
+}
+
+void Presenter::tmmEmptyKey() const
+{
+    MessageBoxHelper::warnMsgBox(tr("Empty tag is not allowed."),
+                                 tr("Aborting tag change!"),
+                                 m_pMainWindow);
+}
+
+void Presenter::tmmDoubletKey(const QString tag) const
+{
+    MessageBoxHelper::warnMsgBox(
+        tr("The tag '") + tag + tr("' is already in use."),
+        tr("Aborting tag change!"),
+        m_pMainWindow);
 }
 
 void Presenter::enableDisableTagRemovalBtns()
@@ -253,14 +307,14 @@ void Presenter::importPlain()
             m_pMainWindow->setPlainText(plainText);
 
             // inform user about succesfull import
-            MessageBoxHelper::infoMsgBox("Imported plain text from file:",
+            MessageBoxHelper::infoMsgBox(tr("Imported plain text from file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }
         else
         {
             // inform user about failed import
-            MessageBoxHelper::warnMsgBox("Could not import chosen file:",
+            MessageBoxHelper::warnMsgBox(tr("Could not import chosen file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
         }

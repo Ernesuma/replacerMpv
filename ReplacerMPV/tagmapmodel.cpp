@@ -1,6 +1,9 @@
 #include "tagmapmodel.h"
 //#include "algorithm"
 
+const QRegularExpression TagMapModel::reKeyValid{"^[a-zA-Z0-9_-]+$"};
+const QString TagMapModel::validKeyChars{"[a-zA-Z0-9_-]"};
+
 TagMapModel::TagMapModel(QObject *pParent):
     QAbstractTableModel(pParent),
     m_map()
@@ -39,26 +42,52 @@ Qt::ItemFlags TagMapModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TagMapModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, int role)
 {
     if (index.isValid() && Qt::EditRole == role)
     {
         // get list of map keys
         auto keys{m_map.uniqueKeys()};
 
-        // column 0 means to set the key
+        // column 0 means to set the map key to newValue
         if (index.column() == 0)
         {
-            // save value
-            tagMapValue tmpVal = m_map[keys[index.row()]];
-            // remove entry from map
-            m_map.remove(keys[index.row()]);
-            // add value with new key
-            m_map[value.toString()] = tmpVal;
+            // get the new map key; filer invalid characters
+            QString newKey = filterKey(newValue.toString());
+
+            // check new key
+            // -------------
+            if (newValue.toString() != newKey)
+            {
+                // had to filter out invalid characters
+                emit setData_filteredKey(newValue.toString(), newKey);
+            }
+            if (newKey.isEmpty())
+            {
+                // new key is empty
+                emit setData_emptyKey();
+            }
+            else if (keys.contains(newKey))
+            {
+                // new key already in map
+                emit setData_doubletKey(newKey);
+            }
+            else
+            {
+                // passed checks --> change key
+                // save map value
+                tagMapValue tmpMapValue = m_map[keys[index.row()]];
+                // remove entry from map
+                m_map.remove(keys[index.row()]);
+                // insert value with new key
+                m_map[newKey] = tmpMapValue;
+            }
         }
-        // not column 0 means to set the value
+        // not column 0 means to set the map value to newValue
         else
-            m_map[keys[index.row()]] = value.toString();
+        {
+            m_map[keys[index.row()]] = newValue.toString();
+        }
 
         emit dataChanged(index, index);
         return true;
@@ -116,7 +145,7 @@ QVariant TagMapModel::headerData(int section, Qt::Orientation orientation, int r
         {
             if (0 == section)
             {
-                return QString("Key");
+                return QString("Tag");
             }
             else
             {
@@ -226,4 +255,47 @@ bool TagMapModel::removeAllRows()
         this->removeRow(row);
     }
     return true;
+}
+
+const bool TagMapModel::isKeyInUse(const tagMapKey &key) const
+{
+    return m_map.contains(key);
+}
+
+/*
+ * check the key for syntactical validity
+ */
+bool TagMapModel::isKeyValid(const QString &key)
+{
+    // use a regular expression to check the key
+    QRegularExpressionMatch matchObj = reKeyValid.match(key);
+    return matchObj.hasMatch();
+}
+
+/*
+ * remove all characters that make the key syntactically invalid
+ * returns the valid key
+ */
+QString TagMapModel::filterKey(const QString &key)
+{
+    // if the key is valid, return the key
+    if (isKeyValid(key))
+    {
+        return key;
+    }
+    // if the key is invalid, remove every invalid character
+    QString returnString{""};
+    foreach (auto c, key)
+    {
+        if (isKeyValid(c))
+        {
+            returnString.append(c);
+        }
+    }
+    return returnString;
+}
+
+const QString &TagMapModel::getValidKeyCharsString()
+{
+    return validKeyChars;
 }
