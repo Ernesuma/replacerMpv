@@ -30,7 +30,7 @@ public:
     Presenter(MainWindow* pMainWindow,
               Model* pModel);
 
-public slots:
+private slots:
     // slots for the main windows (mw) signals
     void mwPushBtnReplaceClicked();
     void mwPushBtnC2CPlainClicked() const;
