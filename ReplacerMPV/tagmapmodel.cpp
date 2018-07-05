@@ -257,6 +257,11 @@ bool TagMapModel::removeAllRows()
     return true;
 }
 
+const bool TagMapModel::isKeyInUse(const tagMapKey &key) const
+{
+    return m_map.contains(key);
+}
+
 /*
  * check the key for syntactical validity
  */

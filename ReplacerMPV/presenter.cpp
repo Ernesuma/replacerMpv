@@ -115,29 +115,39 @@ void Presenter::mwPushBtnAddTag_clicked()
     // read the tag from the line edit
     QString tag = m_pMainWindow->getNewTag();
 
-    // check tag for formal validity
-    if (TagMapModel::isKeyValid(tag))
+    // check tag for syntactically validity
+    if (!TagMapModel::isKeyValid(tag))
     {
-        // read the value from the line edit
-        QString value = m_pMainWindow->getNewTagValue();
-
-        // provide the values to the model
-        m_pModel->addTag2List(tag, value);
-
-        // clear the line edits and set focus to conveniently input the next tag
-        m_pMainWindow->clearAddTagLineEdits();
+        // tag invalid: show message to user and set focus to tag line edit
+        MessageBoxHelper::warnMsgBox(
+            tr("Invalid tag: ") + "'" + tag + tr("'"),
+            tr("Only use characters from set:\n") + TagMapModel::getValidKeyCharsString(),
+            m_pMainWindow);
         m_pMainWindow->focusAddTagLineEdit();
-
-        // enable the tag removal buttons
-        enableDisableTagRemovalBtns();
+    }
+    else if (m_pModel->getTagMapModelRawPtr()->isKeyInUse(tag))
+    {
+        // tag is already in use
+        // show message and set focus to tag line edit
+        MessageBoxHelper::warnMsgBox(
+            tr("The key '") + tag + tr("' is already in use."),
+            tr("Aborting to add new tag!"),
+            m_pMainWindow);
+        m_pMainWindow->focusAddTagLineEdit();
     }
     else
     {
-        // tag invalid: show message to user and set focut to tag line edit
-        MessageBoxHelper::warnMsgBox(tr("Invalid tag: ") + "'" + tag + tr("'"),
-                                     tr("Only use characters from set\n: ") + TagMapModel::getValidKeyCharsString(),
-                                     m_pMainWindow);
+        // tag is valid
+
+        // read the value from the line edit
+        QString value = m_pMainWindow->getNewTagValue();
+        // provide the values to the model
+        m_pModel->addTag2List(tag, value);
+        // clear the line edits and set focus to conveniently input the next tag
+        m_pMainWindow->clearAddTagLineEdits();
         m_pMainWindow->focusAddTagLineEdit();
+        // enable the tag removal buttons
+        enableDisableTagRemovalBtns();
     }
 }
 

@@ -52,6 +52,7 @@ public:
     bool insert(const tagMapKey& key, const tagMapValue& value);
     bool removeRows(const QModelIndexList rows);
     bool removeAllRows();
+    const bool isKeyInUse(const tagMapKey& key) const;
     static bool isKeyValid(const QString& key);
     static QString filterKey(const QString& key);
     static const QString &getValidKeyCharsString();
