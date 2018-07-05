@@ -115,7 +115,7 @@ void Presenter::mwPushBtnAddTag_clicked()
     // read the tag from the line edit
     QString tag = m_pMainWindow->getNewTag();
 
-    // check tag for syntactically validity
+    // check tag for syntactical validity
     if (!TagMapModel::isKeyValid(tag))
     {
         // tag invalid: show message to user and set focus to tag line edit
