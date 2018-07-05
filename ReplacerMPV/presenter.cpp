@@ -199,12 +199,12 @@ void Presenter::mwMenuLoad()
     qInfo() << "Load";
 }
 
-void Presenter::mwMenuSave()
+void Presenter::mwMenuSave() const
 {
     qInfo() << "Save";
 }
 
-void Presenter::mwMenuSaveAs()
+void Presenter::mwMenuSaveAs() const
 {
     qInfo() << "SaveAs";
 }
@@ -225,22 +225,22 @@ void Presenter::mwMenuImportTags()
     importTags();
 }
 
-void Presenter::mwMenuExportPlain()
+void Presenter::mwMenuExportPlain() const
 {
     qInfo() << "Export Plain";
 }
 
-void Presenter::mwMenuExportFinal()
+void Presenter::mwMenuExportFinal() const
 {
     qInfo() << "Export Final";
 }
 
-void Presenter::mwMenuExportTags()
+void Presenter::mwMenuExportTags() const
 {
     qInfo() << "Export Tags";
 }
 
-void Presenter::mwMenuAbout()
+void Presenter::mwMenuAbout() const
 {
     qInfo() << "About";
 }
