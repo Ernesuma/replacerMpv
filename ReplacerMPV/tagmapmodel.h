@@ -44,7 +44,7 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    bool setData(const QModelIndex &index, const QVariant &newValue, int role = Qt::EditRole);
 
     // own methods to add and remove values with custom parameters
     bool insert(const tagMapKey& key, const tagMapValue& value);

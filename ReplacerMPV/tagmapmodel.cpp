@@ -41,27 +41,30 @@ Qt::ItemFlags TagMapModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TagMapModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, int role)
 {
     if (index.isValid() && Qt::EditRole == role)
     {
         // get list of map keys
         auto keys{m_map.uniqueKeys()};
 
-        // column 0 means to set the key
+        // column 0 means to set the map key to newValue
         if (index.column() == 0)
         {
             // save value
-            tagMapValue tmpVal = m_map[keys[index.row()]];
+            tagMapValue tmpMapValue = m_map[keys[index.row()]];
             // remove entry from map
             m_map.remove(keys[index.row()]);
+            // get the new map key; filer invalid characters
+            QString key = filterKey(newValue.toString());
             // add value with new key
-            QString key = filterKey(value.toString());
-            m_map[key] = tmpVal;
+            m_map[key] = tmpMapValue;
         }
-        // not column 0 means to set the value
+        // not column 0 means to set the map value to newValue
         else
-            m_map[keys[index.row()]] = value.toString();
+        {
+            m_map[keys[index.row()]] = newValue.toString();
+        }
 
         emit dataChanged(index, index);
         return true;
@@ -231,14 +234,23 @@ bool TagMapModel::removeAllRows()
     return true;
 }
 
+/*
+ * check the key for syntactical validity
+ */
 bool TagMapModel::isKeyValid(const QString &key)
 {
+    // use a regular expression to check the key
     QRegularExpressionMatch matchObj = reKeyValid.match(key);
     return matchObj.hasMatch();
 }
 
+/*
+ * remove all characters that make the key syntactically invalid
+ * returns the valid key
+ */
 QString TagMapModel::filterKey(const QString &key)
 {
+    // if the key is invalid, remove every invalid character
     QString returnString{""};
     foreach (auto c, key)
     {
