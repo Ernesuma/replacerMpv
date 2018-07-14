@@ -28,6 +28,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwTextEditPlainChanged()));
 
     // menu 'Menu'
+    QObject::connect(m_pMainWindow, SIGNAL(menuMenu_aboutToShow()),
+                     this, SLOT(mwMenuMenu_aboutToShow()));
     QObject::connect(m_pMainWindow, SIGNAL(menuNew()),
                      this, SLOT(mwMenuNew()));
     QObject::connect(m_pMainWindow, SIGNAL(menuLoad()),
@@ -40,6 +42,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwMenuExit()));
 
     // menu 'Data'
+    QObject::connect(m_pMainWindow, SIGNAL(menuData_aboutToShow()),
+                     this, SLOT(mwMenuData_aboutToShow()));
     QObject::connect(m_pMainWindow, SIGNAL(menuImportPlain()),
                      this, SLOT(mwMenuImportPlain()));
     QObject::connect(m_pMainWindow, SIGNAL(menuImportTags()),
@@ -52,6 +56,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwMenuExportTags()));
 
     // menu 'Help'
+    QObject::connect(m_pMainWindow, SIGNAL(menuHelp_aboutToShow()),
+                     this, SLOT(mwMenuHelp_aboutToShow()));
     QObject::connect(m_pMainWindow, SIGNAL(menuAbout()),
                      this, SLOT(mwMenuAbout()));
 
@@ -253,6 +259,21 @@ void Presenter::mwMenuExportTags() const
 void Presenter::mwMenuAbout() const
 {
     qInfo() << "About";
+}
+
+void Presenter::mwMenuMenu_aboutToShow()
+{
+    qInfo() << "menu Menu about to show";
+}
+
+void Presenter::mwMenuData_aboutToShow()
+{
+    qInfo() << "menu Data about to show";
+}
+
+void Presenter::mwMenuHelp_aboutToShow()
+{
+    qInfo() << "menu Help about to show";
 }
 
 void Presenter::tmmFilteredKey(const QString original,

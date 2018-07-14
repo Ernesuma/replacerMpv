@@ -50,6 +50,9 @@ private slots:
     void mwMenuExportFinal() const;
     void mwMenuExportTags() const;
     void mwMenuAbout() const;
+    void mwMenuMenu_aboutToShow();
+    void mwMenuData_aboutToShow();
+    void mwMenuHelp_aboutToShow();
 
     // slots for the tag map models error messages
     void tmmFilteredKey(const QString original, const QString filtered) const;

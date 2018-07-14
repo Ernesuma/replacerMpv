@@ -82,6 +82,10 @@ signals:
     void menuExportTags();
     void menuExportFinal();
     void menuAbout();
+
+    void menuMenu_aboutToShow();
+    void menuData_aboutToShow();
+    void menuHelp_aboutToShow();
 };
 
 #endif // MAINWINDOW_H

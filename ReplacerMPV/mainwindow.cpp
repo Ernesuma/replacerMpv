@@ -11,6 +11,13 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
 
     // route the needed gui widgets signals to the mainwindows signals
+    QObject::connect(m_menuMenu, SIGNAL(aboutToShow()),
+                     this, SIGNAL(menuMenu_aboutToShow()));
+    QObject::connect(m_menuData, SIGNAL(aboutToShow()),
+                     this, SIGNAL(menuData_aboutToShow()));
+    QObject::connect(m_menuHelp, SIGNAL(aboutToShow()),
+                     this, SIGNAL(menuHelp_aboutToShow()));
+
     QObject::connect(ui->pushButton_replace, SIGNAL(clicked()),
                      this, SIGNAL(pushBtnReplace_clicked()));
     QObject::connect(ui->pushButton_c2c_plain, SIGNAL(clicked()),
