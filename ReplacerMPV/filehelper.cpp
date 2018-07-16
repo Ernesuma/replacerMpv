@@ -2,11 +2,20 @@
 
 FileHelper::FileHelper()
 {
-
+    // nothing to do here
 }
 
-FileHelper::ResultCode FileHelper::readFile2String(const QDir &path, QString &readText)
+FileHelper::ResultCode FileHelper::readFile2String(const QDir &path,
+                                                   QString &readText)
 {
+    /*
+     * reads from file in path and writes contents to string
+     *
+     * possible return codes:
+     *   OK
+     *   ERROR_FILE_OPEN
+     */
+
     // returns error if file coud not be read
     ResultCode retVal{ResultCode::ERROR_FILE_OPEN};
 
@@ -28,12 +37,17 @@ FileHelper::ResultCode FileHelper::readFile2String(const QDir &path, QString &re
     return retVal;
 }
 
-FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path, TagMapModel::tagMap &tags)
+FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
+                                                   TagMapModel::tagMap &tags)
 {
-    // return codes:
-    // 0: OK
-    // 1: file not readable
-    // 2: invalid file format
+    /*
+     * reads from file in path and writes contents into TagMapModel tags
+     *
+     * return codes:
+     *   OK
+     *   ERROR_INVALID_FILE
+     *   ERROR_FILE_OPEN
+     */
 
     // default code
     ResultCode retVal{ResultCode::OK};
