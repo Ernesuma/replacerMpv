@@ -251,7 +251,10 @@ void Presenter::mwMenuExportPlain() const
 
 void Presenter::mwMenuExportFinal() const
 {
-    qInfo() << "Export Final";
+    exportText(m_pModel->getFinalText(),
+               tr("Choose file to save the final text to"),
+               tr("Export final text to:"),
+               tr("Failed to export final text to:"));
 }
 
 void Presenter::mwMenuExportTags() const
