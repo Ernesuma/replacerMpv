@@ -243,7 +243,35 @@ void Presenter::mwMenuImportTags()
 
 void Presenter::mwMenuExportPlain() const
 {
-    qInfo() << "Export Plain";
+    // open file dialog to get a file name (with path) to save to
+    QString saveFileName = QFileDialog::getSaveFileName(
+                m_pMainWindow,
+                tr("Choose file to save the plain text to"));
+    // got file?
+    if (!saveFileName.isNull())
+    {
+        // convert file string to QDir
+        QDir exportFilePath{saveFileName};
+
+        // write plain text to file
+        FileHelper::ResultCode retVal = FileHelper::writeString2File(exportFilePath,
+                                                                     m_pModel->getPlainText());
+        // check result code and inform user
+        if (FileHelper::ResultCode::OK == retVal)
+        {
+            // export successful
+            MessageBoxHelper::infoMsgBox(
+                        tr("Exported plain text to:"),
+                        exportFilePath.absolutePath());
+        }
+        else
+        {
+            // export failed
+            MessageBoxHelper::warnMsgBox(
+                        tr("Could not save plain text to file:"),
+                        exportFilePath.absolutePath());
+        }
+    }
 }
 
 void Presenter::mwMenuExportFinal() const

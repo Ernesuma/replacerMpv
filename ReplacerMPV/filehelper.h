@@ -17,12 +17,14 @@ public:
     {
         OK,
         ERROR_FILE_OPEN,
-        ERROR_INVALID_FILE
+        ERROR_INVALID_FILE,
+        ERROR_FILE_CREATION
     };
 
     FileHelper();
     static ResultCode readFile2String(const QDir& path, QString& readText);
     static ResultCode readFile2TagMap(const QDir& path, TagMapModel::tagMap& tags);
+    static ResultCode writeString2File(const QDir& path, const QString& text);
 };
 
 #endif // FILEHELPER_H

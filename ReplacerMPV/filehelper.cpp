@@ -98,3 +98,37 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
     }
     return retVal;
 }
+
+FileHelper::ResultCode FileHelper::writeString2File(const QDir &path,
+                                                    const QString &text)
+{
+    /*
+     * writes the string 'text' to the file in path
+     *
+     * possible return codes:
+     *   OK
+     *   ERROR_FILE_CREATION
+     */
+
+    // default return code
+    ResultCode retVal{ResultCode::OK};
+
+    // get absolute path
+    QFile data(path.absolutePath());
+
+    // try to open file as write only text file
+    if (data.open(QFile::WriteOnly | QFile::Text))
+    {
+        // write text to file
+        QTextStream out(&data);
+        out << text;
+    }
+    else
+    {
+        // failed to open file
+        retVal = ResultCode::ERROR_FILE_CREATION;
+    }
+    // close open file stream
+    data.close();
+    return retVal;
+}
