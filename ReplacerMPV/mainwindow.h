@@ -53,6 +53,9 @@ public:
     void enableRemoveSelTagsBtn(const bool bEnable);
     void enableRemoveAllTagsBtn(const bool bEnable);
 
+    void enableMenuActionExportPlain(const bool bEnable);
+    void enableMenuActionExportFinal(const bool bEnable);
+    void enableMenuActionExportTags(const bool bEnable);
 private:
     void createMenus();
 

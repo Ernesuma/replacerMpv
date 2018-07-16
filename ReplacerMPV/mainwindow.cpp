@@ -128,6 +128,27 @@ void MainWindow::enableRemoveAllTagsBtn(const bool bEnable)
     ui->pushButton_remove_all_tags->setEnabled(bEnable);
 }
 
+void MainWindow::enableMenuActionExportPlain(const bool bEnable)
+{
+    // enable the menu action to export the plain text if
+    // bEnable is true et vice versa
+    m_actionExportPlain->setEnabled(bEnable);
+}
+
+void MainWindow::enableMenuActionExportFinal(const bool bEnable)
+{
+    // enable the menu action to export the final text if bEnable
+    // is true et vice versa
+    m_actionExportFinal->setEnabled(bEnable);
+}
+
+void MainWindow::enableMenuActionExportTags(const bool bEnable)
+{
+    // enable the menu action to export tags if bEnable is true
+    // et vice versa
+    m_actionExportTagList->setEnabled(bEnable);
+}
+
 void MainWindow::createMenus()
 {
     // add menus to menubar

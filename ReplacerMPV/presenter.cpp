@@ -268,7 +268,10 @@ void Presenter::mwMenuMenu_aboutToShow()
 
 void Presenter::mwMenuData_aboutToShow()
 {
-    qInfo() << "menu Data about to show";
+    // enable or disable data menu actions depending on the texts and tags
+    m_pMainWindow->enableMenuActionExportPlain(!m_pModel->getPlainText().isEmpty());
+    m_pMainWindow->enableMenuActionExportFinal(!m_pModel->getFinalText().isEmpty());
+    m_pMainWindow->enableMenuActionExportTags(!m_pModel->isTagMapEmpty());
 }
 
 void Presenter::mwMenuHelp_aboutToShow()
