@@ -53,6 +53,9 @@ public:
     void enableRemoveSelTagsBtn(const bool bEnable);
     void enableRemoveAllTagsBtn(const bool bEnable);
 
+    void enableMenuActionExportPlain(const bool bEnable);
+    void enableMenuActionExportFinal(const bool bEnable);
+    void enableMenuActionExportTags(const bool bEnable);
 private:
     void createMenus();
 
@@ -82,6 +85,10 @@ signals:
     void menuExportTags();
     void menuExportFinal();
     void menuAbout();
+
+    void menuMenu_aboutToShow();
+    void menuData_aboutToShow();
+    void menuHelp_aboutToShow();
 };
 
 #endif // MAINWINDOW_H

@@ -11,15 +11,30 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
 
     // route the needed gui widgets signals to the mainwindows signals
-    QObject::connect(ui->pushButton_replace, SIGNAL(clicked()), this, SIGNAL(pushBtnReplace_clicked()));
-    QObject::connect(ui->pushButton_c2c_plain, SIGNAL(clicked()), this, SIGNAL(pushBtnC2cPlain_clicked()));
-    QObject::connect(ui->pushButton_exportFinal, SIGNAL(clicked()), this, SIGNAL(pushBtnExportFinal_clicked()));
-    QObject::connect(ui->pushButton_c2c_final, SIGNAL(clicked()), this, SIGNAL(pushBtnC2cFinal_clicked()));
-    QObject::connect(ui->pushButton_add_2_tag_list, SIGNAL(clicked()), this, SIGNAL(pushBtnAddTag_clicked()));
-    QObject::connect(ui->pushButton_remove_selected_tags, SIGNAL(clicked()), this, SIGNAL(pushBtnRemoveSelectedTags_clicked()));
-    QObject::connect(ui->pushButton_remove_all_tags, SIGNAL(clicked()), this, SIGNAL(pushBtnRemoveAllTags_clicked()));
+    QObject::connect(m_menuMenu, SIGNAL(aboutToShow()),
+                     this, SIGNAL(menuMenu_aboutToShow()));
+    QObject::connect(m_menuData, SIGNAL(aboutToShow()),
+                     this, SIGNAL(menuData_aboutToShow()));
+    QObject::connect(m_menuHelp, SIGNAL(aboutToShow()),
+                     this, SIGNAL(menuHelp_aboutToShow()));
 
-    QObject::connect(ui->textEdit_plain, SIGNAL(textChanged()), this, SIGNAL(textEditPlain_textChanged()));
+    QObject::connect(ui->pushButton_replace, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnReplace_clicked()));
+    QObject::connect(ui->pushButton_c2c_plain, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnC2cPlain_clicked()));
+    QObject::connect(ui->pushButton_exportFinal, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnExportFinal_clicked()));
+    QObject::connect(ui->pushButton_c2c_final, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnC2cFinal_clicked()));
+    QObject::connect(ui->pushButton_add_2_tag_list, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnAddTag_clicked()));
+    QObject::connect(ui->pushButton_remove_selected_tags, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnRemoveSelectedTags_clicked()));
+    QObject::connect(ui->pushButton_remove_all_tags, SIGNAL(clicked()),
+                     this, SIGNAL(pushBtnRemoveAllTags_clicked()));
+
+    QObject::connect(ui->textEdit_plain, SIGNAL(textChanged()),
+                     this, SIGNAL(textEditPlain_textChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -111,6 +126,27 @@ void MainWindow::enableRemoveAllTagsBtn(const bool bEnable)
 {
     // enable button if parameter is true et vice versa
     ui->pushButton_remove_all_tags->setEnabled(bEnable);
+}
+
+void MainWindow::enableMenuActionExportPlain(const bool bEnable)
+{
+    // enable the menu action to export the plain text if
+    // bEnable is true et vice versa
+    m_actionExportPlain->setEnabled(bEnable);
+}
+
+void MainWindow::enableMenuActionExportFinal(const bool bEnable)
+{
+    // enable the menu action to export the final text if bEnable
+    // is true et vice versa
+    m_actionExportFinal->setEnabled(bEnable);
+}
+
+void MainWindow::enableMenuActionExportTags(const bool bEnable)
+{
+    // enable the menu action to export tags if bEnable is true
+    // et vice versa
+    m_actionExportTagList->setEnabled(bEnable);
 }
 
 void MainWindow::createMenus()

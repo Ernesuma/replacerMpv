@@ -10,49 +10,55 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
     // connect the main windows signals to the presenters slots
     // --------------------------------------------------------
     // push buttons
-    QObject::connect(pMainWindow, SIGNAL(pushBtnReplace_clicked()),
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnReplace_clicked()),
                      this, SLOT(mwPushBtnReplaceClicked()));
-    QObject::connect(pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
                      this, SLOT(mwPushBtnC2CPlainClicked()));
-    QObject::connect(pMainWindow, SIGNAL(pushBtnC2cFinal_clicked()),
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnC2cFinal_clicked()),
                      this, SLOT(mwPushBtnC2CFinalClicked()));
-    QObject::connect(pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
                      this, SLOT(mwPushBtnAddTag_clicked()));
-    QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveSelectedTags_clicked()),
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnRemoveSelectedTags_clicked()),
                      this, SLOT(mwPushBtnRemoveSelTags()));
-    QObject::connect(pMainWindow, SIGNAL(pushBtnRemoveAllTags_clicked()),
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnRemoveAllTags_clicked()),
                      this, SLOT(mwPushBtnRemoveAllTags()));
 
     // text edits
-    QObject::connect(pMainWindow, SIGNAL(textEditPlain_textChanged()),
+    QObject::connect(m_pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
 
     // menu 'Menu'
-    QObject::connect(pMainWindow, SIGNAL(menuNew()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuMenu_aboutToShow()),
+                     this, SLOT(mwMenuMenu_aboutToShow()));
+    QObject::connect(m_pMainWindow, SIGNAL(menuNew()),
                      this, SLOT(mwMenuNew()));
-    QObject::connect(pMainWindow, SIGNAL(menuLoad()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuLoad()),
                      this, SLOT(mwMenuLoad()));
-    QObject::connect(pMainWindow, SIGNAL(menuSave()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuSave()),
                      this, SLOT(mwMenuSave()));
-    QObject::connect(pMainWindow, SIGNAL(menuSaveAs()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuSaveAs()),
                      this, SLOT(mwMenuSaveAs()));
-    QObject::connect(pMainWindow, SIGNAL(menuExit()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuExit()),
                      this, SLOT(mwMenuExit()));
 
     // menu 'Data'
-    QObject::connect(pMainWindow, SIGNAL(menuImportPlain()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuData_aboutToShow()),
+                     this, SLOT(mwMenuData_aboutToShow()));
+    QObject::connect(m_pMainWindow, SIGNAL(menuImportPlain()),
                      this, SLOT(mwMenuImportPlain()));
-    QObject::connect(pMainWindow, SIGNAL(menuImportTags()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuImportTags()),
                      this, SLOT(mwMenuImportTags()));
-    QObject::connect(pMainWindow, SIGNAL(menuExportPlain()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuExportPlain()),
                      this, SLOT(mwMenuExportPlain()));
-    QObject::connect(pMainWindow, SIGNAL(menuExportFinal()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuExportFinal()),
                      this, SLOT(mwMenuExportFinal()));
-    QObject::connect(pMainWindow, SIGNAL(menuExportTags()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuExportTags()),
                      this, SLOT(mwMenuExportTags()));
 
     // menu 'Help'
-    QObject::connect(pMainWindow, SIGNAL(menuAbout()),
+    QObject::connect(m_pMainWindow, SIGNAL(menuHelp_aboutToShow()),
+                     this, SLOT(mwMenuHelp_aboutToShow()));
+    QObject::connect(m_pMainWindow, SIGNAL(menuAbout()),
                      this, SLOT(mwMenuAbout()));
 
     // connect tag map
@@ -253,6 +259,24 @@ void Presenter::mwMenuExportTags() const
 void Presenter::mwMenuAbout() const
 {
     qInfo() << "About";
+}
+
+void Presenter::mwMenuMenu_aboutToShow()
+{
+    qInfo() << "menu Menu about to show";
+}
+
+void Presenter::mwMenuData_aboutToShow()
+{
+    // enable or disable data menu actions depending on the texts and tags
+    m_pMainWindow->enableMenuActionExportPlain(!m_pModel->getPlainText().isEmpty());
+    m_pMainWindow->enableMenuActionExportFinal(!m_pModel->getFinalText().isEmpty());
+    m_pMainWindow->enableMenuActionExportTags(!m_pModel->isTagMapEmpty());
+}
+
+void Presenter::mwMenuHelp_aboutToShow()
+{
+    qInfo() << "menu Help about to show";
 }
 
 void Presenter::tmmFilteredKey(const QString original,
