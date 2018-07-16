@@ -243,35 +243,10 @@ void Presenter::mwMenuImportTags()
 
 void Presenter::mwMenuExportPlain() const
 {
-    // open file dialog to get a file name (with path) to save to
-    QString saveFileName = QFileDialog::getSaveFileName(
-                m_pMainWindow,
-                tr("Choose file to save the plain text to"));
-    // got file?
-    if (!saveFileName.isNull())
-    {
-        // convert file string to QDir
-        QDir exportFilePath{saveFileName};
-
-        // write plain text to file
-        FileHelper::ResultCode retVal = FileHelper::writeString2File(exportFilePath,
-                                                                     m_pModel->getPlainText());
-        // check result code and inform user
-        if (FileHelper::ResultCode::OK == retVal)
-        {
-            // export successful
-            MessageBoxHelper::infoMsgBox(
-                        tr("Exported plain text to:"),
-                        exportFilePath.absolutePath());
-        }
-        else
-        {
-            // export failed
-            MessageBoxHelper::warnMsgBox(
-                        tr("Could not save plain text to file:"),
-                        exportFilePath.absolutePath());
-        }
-    }
+    exportText(m_pModel->getPlainText(),
+               tr("Choose file to save the plain text to"),
+               tr("Export plain text to:"),
+               tr("Failed to export plain text to:"));
 }
 
 void Presenter::mwMenuExportFinal() const
@@ -421,6 +396,42 @@ void Presenter::importTags()
             MessageBoxHelper::warnMsgBox(tr("Unknown Error during import of tag file:"),
                                          importFilePath.absolutePath(),
                                          m_pMainWindow);
+        }
+    }
+}
+
+void Presenter::exportText(const QString& text,
+                           const QString& strFileDialogTitle,
+                           const QString& strSuccessMsg,
+                           const QString& strFailedMsg) const
+{
+    // open file dialog to get a file name (with path) to save to
+    QString saveFileName = QFileDialog::getSaveFileName(
+                m_pMainWindow,
+                strFileDialogTitle);
+    // got file?
+    if (!saveFileName.isNull())
+    {
+        // convert file string to QDir
+        QDir exportFilePath{saveFileName};
+
+        // write text to file
+        FileHelper::ResultCode retVal = FileHelper::writeString2File(exportFilePath,
+                                                                     text);
+        // check result code and inform user
+        if (FileHelper::ResultCode::OK == retVal)
+        {
+            // export successful
+            MessageBoxHelper::infoMsgBox(
+                        strSuccessMsg,
+                        exportFilePath.absolutePath());
+        }
+        else
+        {
+            // export failed
+            MessageBoxHelper::warnMsgBox(
+                        strFailedMsg,
+                        exportFilePath.absolutePath());
         }
     }
 }

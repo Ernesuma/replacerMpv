@@ -63,6 +63,10 @@ private:
     void enableDisableTagRemovalBtns();
     void importPlain();
     void importTags();
+    void exportText(const QString &text,
+                    const QString &strFileDialogTitle,
+                    const QString &strSuccessMsg,
+                    const QString &strFailedMsg) const;
 };
 
 #endif // PRESENTER_H
