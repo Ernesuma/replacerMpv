@@ -67,6 +67,7 @@ private:
                     const QString &strFileDialogTitle,
                     const QString &strSuccessMsg,
                     const QString &strFailedMsg) const;
+    void exportTags() const;
 };
 
 #endif // PRESENTER_H

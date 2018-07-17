@@ -259,7 +259,7 @@ void Presenter::mwMenuExportFinal() const
 
 void Presenter::mwMenuExportTags() const
 {
-    qInfo() << "Export Tags";
+    exportTags();
 }
 
 void Presenter::mwMenuAbout() const
@@ -434,6 +434,49 @@ void Presenter::exportText(const QString& text,
             // export failed
             MessageBoxHelper::warnMsgBox(
                         strFailedMsg,
+                        exportFilePath.absolutePath());
+        }
+    }
+}
+
+void Presenter::exportTags() const
+{
+    // open file dialog to get a file name (with path) to save the tags to
+    QString saveFileName = QFileDialog::getSaveFileName(
+                m_pMainWindow,
+                tr("Select file to save the tags to"));
+
+    // check if file was selected
+    if (!saveFileName.isNull())
+    {
+        // convert file string to QDir
+        QDir exportFilePath{saveFileName};
+
+        // call export method in FileHelper
+        FileHelper::ResultCode retVal = FileHelper::writeTags2File(
+                    exportFilePath,
+                    m_pModel->getTagMap());
+
+        // check return code and inform user accordingly
+        if (FileHelper::ResultCode::OK == retVal)
+        {
+            // export has been successful
+            MessageBoxHelper::infoMsgBox(
+                        tr("Exported tags to:"),
+                        exportFilePath.absolutePath());
+        }
+        else if (FileHelper::ResultCode::ERROR_INVALID_DATA == retVal)
+        {
+            // export has failed due to invalid key
+            MessageBoxHelper::warnMsgBox(
+                        tr("Export of tags failed. Could not create a valid tag file due to an invalid key. The file is incomplete:"),
+                        exportFilePath.absolutePath());
+        }
+        else
+        {
+            // export has failed
+            MessageBoxHelper::warnMsgBox(
+                        tr("Export of tags failed. Could not create a tag file:"),
                         exportFilePath.absolutePath());
         }
     }
