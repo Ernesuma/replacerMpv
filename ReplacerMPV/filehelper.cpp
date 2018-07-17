@@ -1,5 +1,12 @@
 #include "filehelper.h"
 
+const QChar FileHelper::tagMapSeparator = QChar(',');
+
+QChar FileHelper::getTagMapSeparator()
+{
+    return tagMapSeparator;
+}
+
 FileHelper::FileHelper()
 {
     // nothing to do here
@@ -129,6 +136,52 @@ FileHelper::ResultCode FileHelper::writeString2File(const QDir &path,
         retVal = ResultCode::ERROR_FILE_CREATION;
     }
     // close open file stream
+    data.close();
+    return retVal;
+}
+
+FileHelper::ResultCode FileHelper::writeTags2File(const QDir &path, const TagMapModel::tagMap &tags)
+{
+    /*
+     * this method writes the tags from the tagmap to a csv like file
+     *
+     * return codes:
+     *    OK                  : export ok
+     *    ERROR_INVALID_DATA  : invalid key detected, aborted export
+     *    ERROR_FILE_CREATION : could not create file
+     */
+
+    // default return code
+    ResultCode retVal{ResultCode::OK};
+
+    // try to open file from path
+    QFile data(path.absolutePath());
+    if(data.open(QFile::WriteOnly | QFile::Text))
+    {
+        // use text stream to write to file
+        QTextStream out(&data);
+
+        // iterate over all unique keys of the tag map
+        auto keys{tags.uniqueKeys()};
+        foreach (auto key, keys)
+        {
+            // if the key is valid write key and value to file
+            if (TagMapModel::isKeyValid(key))
+            {
+                out << key << getTagMapSeparator() << tags[key] << '\n';
+            }
+            else
+            {
+                // if key is invalid return error
+                retVal = ResultCode::ERROR_INVALID_DATA;
+                break;
+            }
+        }
+    }
+    else
+    {
+        retVal = ResultCode::ERROR_FILE_CREATION;
+    }
     data.close();
     return retVal;
 }
