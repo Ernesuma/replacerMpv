@@ -140,7 +140,8 @@ FileHelper::ResultCode FileHelper::writeString2File(const QDir &path,
     return retVal;
 }
 
-FileHelper::ResultCode FileHelper::writeTags2File(const QDir &path, const TagMapModel::tagMap &tags)
+FileHelper::ResultCode FileHelper::writeTags2File(const QDir &path,
+                                                  const TagMapModel::tagMap &tags)
 {
     /*
      * this method writes the tags from the tagmap to a csv like file
