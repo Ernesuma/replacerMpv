@@ -112,6 +112,7 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
     {
         retVal = ResultCode::ERROR_FILE_OPEN;
     }
+    data.close();
     return retVal;
 }
 
