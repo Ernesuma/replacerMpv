@@ -85,8 +85,14 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
             QRegularExpressionMatch validRowMatch = reValidRow.match(row);
             if (validRowMatch.hasMatch())
             {
-                // add the key and the value to the tag map
+                // add the key and the value to the tag map, if key is valid
                 auto key = validRowMatch.captured(1);
+                if (!TagMapModel::isKeyValid(key))
+                {
+                    // invalid key: abort reading of file
+                    retVal = ResultCode::ERROR_INVALID_FILE;
+                    break;
+                }
                 auto value = validRowMatch.captured(2);
                 tags[key] = value;
             }
