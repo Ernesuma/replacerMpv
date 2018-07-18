@@ -68,7 +68,10 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
 
         // declare string row
         QString row{};
-        QString validRowPattern{"^([a-zA-Z0-9]*),(.*)$"};
+
+        // define a regex to match a valid row
+        const QString sep{FileHelper::getTagMapSeparator()};
+        QString validRowPattern{"^([^" + sep + "]+)" + sep + "(.*)$"};
         QRegularExpression reValidRow(validRowPattern);
 
         // while text stream 'in' is not at end
