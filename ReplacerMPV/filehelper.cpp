@@ -99,9 +99,6 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
             // row not valid
             else
             {
-                // print warning to log output
-                qWarning() << "WARNING: invalid tag list file to import";
-
                 retVal = ResultCode::ERROR_INVALID_FILE;
                 break;
             }
