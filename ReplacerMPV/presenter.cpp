@@ -14,6 +14,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwPushBtnReplaceClicked()));
     QObject::connect(m_pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
                      this, SLOT(mwPushBtnC2CPlainClicked()));
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnExportFinal_clicked()),
+                     this, SLOT(mwPushBtnExportFinalClicked()));
     QObject::connect(m_pMainWindow, SIGNAL(pushBtnC2cFinal_clicked()),
                      this, SLOT(mwPushBtnC2CFinalClicked()));
     QObject::connect(m_pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
@@ -107,6 +109,11 @@ void Presenter::mwPushBtnC2CPlainClicked() const
     // copy plain text from model to the clipboard
     const QString& tmp = m_pModel->getPlainText();
     QApplication::clipboard()->setText(tmp);
+}
+
+void Presenter::mwPushBtnExportFinalClicked() const
+{
+    exportFinal();
 }
 
 void Presenter::mwPushBtnC2CFinalClicked() const
@@ -243,17 +250,20 @@ void Presenter::mwMenuImportTags()
 
 void Presenter::mwMenuExportPlain() const
 {
-    qInfo() << "Export Plain";
+    exportText(m_pModel->getPlainText(),
+               tr("Choose file to save the plain text to"),
+               tr("Export plain text to:"),
+               tr("Failed to export plain text to:"));
 }
 
 void Presenter::mwMenuExportFinal() const
 {
-    qInfo() << "Export Final";
+    exportFinal();
 }
 
 void Presenter::mwMenuExportTags() const
 {
-    qInfo() << "Export Tags";
+    exportTags();
 }
 
 void Presenter::mwMenuAbout() const
@@ -395,4 +405,91 @@ void Presenter::importTags()
                                          m_pMainWindow);
         }
     }
+}
+
+void Presenter::exportText(const QString& text,
+                           const QString& strFileDialogTitle,
+                           const QString& strSuccessMsg,
+                           const QString& strFailedMsg) const
+{
+    // open file dialog to get a file name (with path) to save to
+    QString saveFileName = QFileDialog::getSaveFileName(
+                m_pMainWindow,
+                strFileDialogTitle);
+    // got file?
+    if (!saveFileName.isNull())
+    {
+        // convert file string to QDir
+        QDir exportFilePath{saveFileName};
+
+        // write text to file
+        FileHelper::ResultCode retVal = FileHelper::writeString2File(exportFilePath,
+                                                                     text);
+        // check result code and inform user
+        if (FileHelper::ResultCode::OK == retVal)
+        {
+            // export successful
+            MessageBoxHelper::infoMsgBox(
+                        strSuccessMsg,
+                        exportFilePath.absolutePath());
+        }
+        else
+        {
+            // export failed
+            MessageBoxHelper::warnMsgBox(
+                        strFailedMsg,
+                        exportFilePath.absolutePath());
+        }
+    }
+}
+
+void Presenter::exportTags() const
+{
+    // open file dialog to get a file name (with path) to save the tags to
+    QString saveFileName = QFileDialog::getSaveFileName(
+                m_pMainWindow,
+                tr("Select file to save the tags to"));
+
+    // check if file was selected
+    if (!saveFileName.isNull())
+    {
+        // convert file string to QDir
+        QDir exportFilePath{saveFileName};
+
+        // call export method in FileHelper
+        FileHelper::ResultCode retVal = FileHelper::writeTags2File(
+                    exportFilePath,
+                    m_pModel->getTagMap());
+
+        // check return code and inform user accordingly
+        if (FileHelper::ResultCode::OK == retVal)
+        {
+            // export has been successful
+            MessageBoxHelper::infoMsgBox(
+                        tr("Exported tags to:"),
+                        exportFilePath.absolutePath());
+        }
+        else if (FileHelper::ResultCode::ERROR_INVALID_DATA == retVal)
+        {
+            // export has failed due to invalid key
+            MessageBoxHelper::warnMsgBox(
+                        tr("Export of tags failed. Could not create a valid tag file due to an invalid key. The file is incomplete:"),
+                        exportFilePath.absolutePath());
+        }
+        else
+        {
+            // export has failed
+            MessageBoxHelper::warnMsgBox(
+                        tr("Export of tags failed. Could not create a tag file:"),
+                        exportFilePath.absolutePath());
+        }
+    }
+}
+
+void Presenter::exportFinal() const
+{
+    exportText(m_pModel->getFinalText(),
+               tr("Choose file to save the final text to"),
+               tr("Export final text to:"),
+               tr("Failed to export final text to:"));
 }
