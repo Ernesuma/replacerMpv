@@ -14,6 +14,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
                      this, SLOT(mwPushBtnReplaceClicked()));
     QObject::connect(m_pMainWindow, SIGNAL(pushBtnC2cPlain_clicked()),
                      this, SLOT(mwPushBtnC2CPlainClicked()));
+    QObject::connect(m_pMainWindow, SIGNAL(pushBtnExportFinal_clicked()),
+                     this, SLOT(mwPushBtnExportFinalClicked()));
     QObject::connect(m_pMainWindow, SIGNAL(pushBtnC2cFinal_clicked()),
                      this, SLOT(mwPushBtnC2CFinalClicked()));
     QObject::connect(m_pMainWindow, SIGNAL(pushBtnAddTag_clicked()),
@@ -107,6 +109,11 @@ void Presenter::mwPushBtnC2CPlainClicked() const
     // copy plain text from model to the clipboard
     const QString& tmp = m_pModel->getPlainText();
     QApplication::clipboard()->setText(tmp);
+}
+
+void Presenter::mwPushBtnExportFinalClicked() const
+{
+    exportFinal();
 }
 
 void Presenter::mwPushBtnC2CFinalClicked() const
@@ -251,10 +258,7 @@ void Presenter::mwMenuExportPlain() const
 
 void Presenter::mwMenuExportFinal() const
 {
-    exportText(m_pModel->getFinalText(),
-               tr("Choose file to save the final text to"),
-               tr("Export final text to:"),
-               tr("Failed to export final text to:"));
+    exportFinal();
 }
 
 void Presenter::mwMenuExportTags() const
@@ -480,4 +484,12 @@ void Presenter::exportTags() const
                         exportFilePath.absolutePath());
         }
     }
+}
+
+void Presenter::exportFinal() const
+{
+    exportText(m_pModel->getFinalText(),
+               tr("Choose file to save the final text to"),
+               tr("Export final text to:"),
+               tr("Failed to export final text to:"));
 }

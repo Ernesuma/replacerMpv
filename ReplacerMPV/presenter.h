@@ -34,6 +34,7 @@ private slots:
     // slots for the main windows (mw) signals
     void mwPushBtnReplaceClicked();
     void mwPushBtnC2CPlainClicked() const;
+    void mwPushBtnExportFinalClicked() const;
     void mwPushBtnC2CFinalClicked() const;
     void mwPushBtnAddTag_clicked();
     void mwPushBtnRemoveSelTags();
@@ -68,6 +69,7 @@ private:
                     const QString &strSuccessMsg,
                     const QString &strFailedMsg) const;
     void exportTags() const;
+    void exportFinal() const;
 };
 
 #endif // PRESENTER_H
