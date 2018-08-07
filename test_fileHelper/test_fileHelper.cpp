@@ -13,7 +13,7 @@ public:
     Test_fileHelper();
 
 private Q_SLOTS:
-    void test_1();
+    void test_getTagMapSeparator();
 };
 
 Test_fileHelper::Test_fileHelper()
@@ -24,9 +24,10 @@ Test_fileHelper::Test_fileHelper()
  * test_1
  * ------
  */
-void Test_fileHelper::test_1()
+void Test_fileHelper::test_getTagMapSeparator()
 {
-    QVERIFY(true);
+    QCOMPARE(FileHelper::getTagMapSeparator(),
+             QChar(','));
 }
 
 QTEST_APPLESS_MAIN(Test_fileHelper)
