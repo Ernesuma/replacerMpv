@@ -33,3 +33,6 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += $$PWD/../ReplacerMPV/
 include($$PWD/../ReplacerMPV/ReplacerMpv.pri)
+
+RESOURCES += \
+    testdata.qrc
