@@ -17,13 +17,15 @@ private Q_SLOTS:
     void test_readFile2TagMap();
 };
 
+/*
+ * constructor
+ */
 Test_fileHelper::Test_fileHelper()
 {
 }
 
 /*
- * test_1
- * ------
+ * test the getTagMapSeparator method
  */
 void Test_fileHelper::test_getTagMapSeparator()
 {
