@@ -14,6 +14,7 @@ public:
 
 private Q_SLOTS:
     void test_getTagMapSeparator();
+    void test_readFile2String();
     void test_readFile2TagMap();
 };
 
@@ -31,6 +32,25 @@ void Test_fileHelper::test_getTagMapSeparator()
 {
     QCOMPARE(FileHelper::getTagMapSeparator(),
              QChar(','));
+}
+
+/*
+ * test the read file 2 string method
+ */
+void Test_fileHelper::test_readFile2String()
+{
+    // use file defined in Resources
+    QDir filePath{QDir(":testdata/plain01.testData")};
+
+    // call DUT
+    QString readString{};
+    FileHelper::ResultCode resultCode = FileHelper::readFile2String(filePath, readString);
+
+    // check the result code
+    QCOMPARE(resultCode, FileHelper::ResultCode::OK);
+
+    // check the read string
+    QCOMPARE(readString, QString("This is some test data!!\n"));
 }
 
 /*

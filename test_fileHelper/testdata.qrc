@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/testdata">
         <file>tagMap.testData</file>
+        <file>plain01.testData</file>
     </qresource>
 </RCC>
