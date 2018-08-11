@@ -132,17 +132,22 @@ void Test_fileHelper::test_readFile2TagMap_missingFile()
 void Test_fileHelper::test_readFile2TagMap_invalidFile()
 {
     // use file defined in the Resources
-    QDir filePath{QDir(":testdata/tagMap_invalid.testData")};
+    QList<QDir> filePaths{};
+    filePaths.append(QDir(":testdata/tagMap_invalidRow.testData"));
+    filePaths.append(QDir(":testdata/tagMap_invalidKey.testData"));
 
-    // try to read the file to the tag map
-    TagMapModel::tagMap tagMap{};
-    FileHelper::ResultCode resultCode = FileHelper::readFile2TagMap(filePath, tagMap);
+    foreach (QDir filePath, filePaths)
+    {
+        // try to read the file to the tag map
+        TagMapModel::tagMap tagMap{};
+        FileHelper::ResultCode resultCode = FileHelper::readFile2TagMap(filePath, tagMap);
 
-    // check for the correct result code
-    QCOMPARE(resultCode, FileHelper::ResultCode::ERROR_INVALID_FILE);
+        // check for the correct result code
+        QCOMPARE(resultCode, FileHelper::ResultCode::ERROR_INVALID_FILE);
 
-    // the tag map should still be empty
-    QVERIFY2(tagMap.isEmpty(), "the tag map should still be empty");
+        // the tag map should still be empty
+        QVERIFY2(tagMap.isEmpty(), "the tag map should still be empty");
+    }
 }
 
 /*

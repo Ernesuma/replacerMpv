@@ -2,6 +2,7 @@
     <qresource prefix="/testdata">
         <file>tagMap.testData</file>
         <file>plain01.testData</file>
-        <file>tagMap_invalid.testData</file>
+        <file>tagMap_invalidRow.testData</file>
+        <file>tagMap_invalidKey.testData</file>
     </qresource>
 </RCC>
