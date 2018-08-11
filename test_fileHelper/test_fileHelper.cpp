@@ -15,6 +15,7 @@ public:
 private Q_SLOTS:
     void test_getTagMapSeparator();
     void test_readFile2String();
+    void test_readFile2String_missingFile();
     void test_readFile2TagMap();
 };
 
@@ -51,6 +52,27 @@ void Test_fileHelper::test_readFile2String()
 
     // check the read string
     QCOMPARE(readString, QString("This is some test data!!\n"));
+}
+
+/*
+ * test the read file 2 string with a missing file
+ */
+void Test_fileHelper::test_readFile2String_missingFile()
+{
+    // create QDir object pointing to non existing file
+    QDir filePath{QDir("./missingFile_20180811104155.missingFile")};
+    QFile file{filePath.absolutePath()};
+    QVERIFY2(!file.exists(), "ERROR in unit test: missing file does exist, but it should not!");
+
+    // try to read the file to a string
+    QString readString{};
+    FileHelper::ResultCode resultCode = FileHelper::readFile2String(filePath, readString);
+
+    // check for the expected result code
+    QCOMPARE(resultCode, FileHelper::ResultCode::ERROR_FILE_OPEN);
+
+    // make sure that the read string is still empty
+    QVERIFY2(readString.isEmpty(), "the read string should still be empty");
 }
 
 /*
