@@ -17,6 +17,10 @@ private Q_SLOTS:
     void test_readFile2String();
     void test_readFile2String_missingFile();
     void test_readFile2TagMap();
+
+private:
+    QDir getNonExistingFile();
+    void assertNonExistingFile(QDir filePath);
 };
 
 /*
@@ -59,10 +63,9 @@ void Test_fileHelper::test_readFile2String()
  */
 void Test_fileHelper::test_readFile2String_missingFile()
 {
-    // create QDir object pointing to non existing file
-    QDir filePath{QDir("./missingFile_20180811104155.missingFile")};
-    QFile file{filePath.absolutePath()};
-    QVERIFY2(!file.exists(), "ERROR in unit test: missing file does exist, but it should not!");
+    // get a path to a non existing file
+    QDir filePath = getNonExistingFile();
+    assertNonExistingFile(filePath);
 
     // try to read the file to a string
     QString readString{};
@@ -99,6 +102,27 @@ void Test_fileHelper::test_readFile2TagMap()
 
     // compare read and expected tag map
     QCOMPARE(tagMap, tagMapExpected);
+}
+
+
+/*
+ * helper to get a path to a non existing file
+ */
+QDir Test_fileHelper::getNonExistingFile()
+{
+    // create QDir object pointing to non existing file
+    QDir filePath{QDir("./missingFile_20180811104155.missingFile")};
+    return filePath;
+}
+
+/*
+ * helper to assert the file in the given path does not exist
+ */
+void Test_fileHelper::assertNonExistingFile(QDir filePath)
+{
+    // assert the file really does not exist
+    QFile file{filePath.absolutePath()};
+    QVERIFY2(!file.exists(), "missing file does exist, but it should not!");
 }
 
 QTEST_APPLESS_MAIN(Test_fileHelper)
