@@ -87,7 +87,7 @@ void Test_fileHelper::test_readFile2TagMap()
     QDir filePath{QDir(":testdata/tagMap.testData")};
 
     // call DUT to get the tag map
-    TagMapModel::tagMap tagMap;
+    TagMapModel::tagMap tagMap{};
     FileHelper::ResultCode result = FileHelper::readFile2TagMap(filePath, tagMap);
 
     // check the result code
@@ -96,7 +96,7 @@ void Test_fileHelper::test_readFile2TagMap()
 
     // define the expected tag map data
     // Todo: create more challanging test data
-    TagMapModel::tagMap tagMapExpected;
+    TagMapModel::tagMap tagMapExpected{};
     tagMapExpected.insert("Foo", "Bar");
     tagMapExpected.insert("foo", "bar");
 
