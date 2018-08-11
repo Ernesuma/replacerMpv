@@ -17,6 +17,7 @@ private Q_SLOTS:
     void test_readFile2String();
     void test_readFile2String_missingFile();
     void test_readFile2TagMap();
+    void test_readFile2TagMap_missingFile();
 
 private:
     QDir getNonExistingFile();
@@ -104,6 +105,25 @@ void Test_fileHelper::test_readFile2TagMap()
     QCOMPARE(tagMap, tagMapExpected);
 }
 
+/*
+ * test the read file 2 tag map method with a non existent file
+ */
+void Test_fileHelper::test_readFile2TagMap_missingFile()
+{
+    // use helper method to get a path to a non existing file
+    QDir filePath = getNonExistingFile();
+    assertNonExistingFile(filePath);
+
+    // try to read the file to the tag map
+    TagMapModel::tagMap tagMap{};
+    FileHelper::ResultCode resultCode = FileHelper::readFile2TagMap(filePath, tagMap);
+
+    // check for the correct error code
+    QCOMPARE(resultCode, FileHelper::ResultCode::ERROR_FILE_OPEN);
+
+    // the tag map should still be empty
+    QVERIFY2(tagMap.isEmpty(), "the tag map should still be empty");
+}
 
 /*
  * helper to get a path to a non existing file
