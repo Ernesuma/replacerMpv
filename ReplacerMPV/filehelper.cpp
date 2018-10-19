@@ -58,6 +58,7 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
 
     // default code
     ResultCode retVal{ResultCode::OK};
+    TagMapModel::tagMap newTags{};
 
     // open in provided file path as data
     QFile data(path.absolutePath());
@@ -94,7 +95,7 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
                     break;
                 }
                 auto value = validRowMatch.captured(2);
-                tags[key] = value;
+                newTags[key] = value;
             }
             // row not valid
             else
@@ -110,6 +111,16 @@ FileHelper::ResultCode FileHelper::readFile2TagMap(const QDir &path,
         retVal = ResultCode::ERROR_FILE_OPEN;
     }
     data.close();
+
+    // if whole file were read, copy all new tags into the given output tag map 'tags'
+    // !! new tags with same key than an old tag will overwrite the old tag !!
+    if (ResultCode::OK == retVal)
+    {
+        foreach (auto key, newTags.keys())
+        {
+            tags[key] = newTags[key];
+        }
+    }
     return retVal;
 }
 
