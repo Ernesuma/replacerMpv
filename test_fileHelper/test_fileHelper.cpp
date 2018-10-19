@@ -140,6 +140,8 @@ void Test_fileHelper::test_readFile2TagMap_invalidFile()
     {
         // try to read the file to the tag map
         TagMapModel::tagMap tagMap{};
+        QVERIFY2(tagMap.isEmpty(), "new tag map should be empty");
+
         FileHelper::ResultCode resultCode = FileHelper::readFile2TagMap(filePath, tagMap);
 
         // check for the correct result code
