@@ -11,10 +11,14 @@ private:
     QDir m_projectDir{};
 
 public:
+    Project();
     Project(QString name, QDir path);
 
     QString getName() const;
     QDir getProjectDir() const;
+
+    void setName(QString name);
+    void setProjectDir(QDir path);
 
     QDir getPlainTextFilePath() const;
     QDir getTagsFilePath() const;

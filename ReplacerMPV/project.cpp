@@ -1,9 +1,14 @@
 #include "project.h"
 
-Project::Project(QString name, QDir path)
-{
-    this->m_name = name;
-    this->m_projectDir = path;
+Project::Project() :
+    m_name(),
+    m_projectDir() {
+
+}
+
+Project::Project(QString name, QDir path) {
+    setName(name);
+    setProjectDir(path);
 }
 
 QString Project::getName() const
@@ -13,7 +18,19 @@ QString Project::getName() const
 
 QDir Project::getProjectDir() const
 {
-    return this->getProjectDir();
+    return this->m_projectDir;
+}
+
+void Project::setName(QString name)
+{
+    // todo: check name for validity
+    this->m_name = name;
+}
+
+void Project::setProjectDir(QDir path)
+{
+    // todo: check of path
+    this->m_projectDir = path;
 }
 
 QDir Project::getPlainTextFilePath() const
