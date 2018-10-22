@@ -12,7 +12,9 @@ TagMapModel::TagMapModel(QObject *pParent):
 TagMapModel::TagMapModel(const tagMap &map, QObject* pParent):
     QAbstractTableModel(pParent),
     m_map(map)
-{ }
+{
+    // qInfo() << "new tag map model with given tag map";
+}
 
 int TagMapModel::rowCount(const QModelIndex &parent) const
 {
@@ -118,14 +120,14 @@ QVariant TagMapModel::data(const QModelIndex &index, const int role) const
         // column 0 means key requested
         if (index.column() == 0)
         {
-            qDebug() << "return '" << keys[index.row()] << "' for index (" << index.row() << "," << index.column() << ")";
+            // qDebug() << "return '" << keys[index.row()] << "' for index (" << index.row() << "," << index.column() << ")";
             // return key from position 'row' in key-list 'keys'
             return keys[index.row()];
         }
         // not column 0 means value requested
         else
         {
-            qDebug() << "return '" << m_map[keys[index.row()]] << "' for index (" << index.row() << "," << index.column() << ")";
+            // qDebug() << "return '" << m_map[keys[index.row()]] << "' for index (" << index.row() << "," << index.column() << ")";
             // return value to key from key-list 'keys' at position 'row'
             return m_map[keys[index.row()]];
         }
@@ -161,7 +163,7 @@ bool TagMapModel::insertRows(int row, int count, const QModelIndex &parent)
     if (1 == count)
     {
         beginInsertRows(parent, row, row+count-1);
-        qDebug() << "DEBUG: TagMapModel::insertRows(" << row << "," << count << ")";
+        // qDebug() << "DEBUG: TagMapModel::insertRows(" << row << "," << count << ")";
         for (int i{row}; i<row+count; ++i)
         {
             m_map[m_newKey] = m_newValue;
@@ -195,7 +197,7 @@ bool TagMapModel::insert(const tagMapKey &key, const tagMapValue &value)
 
 bool TagMapModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-    qDebug() << "DEBUG: TagMapModel::removeRows(row, count, parent)";
+    // qDebug() << "DEBUG: TagMapModel::removeRows(row, count, parent)";
     // inform connected views about the starting removal of rows
     beginRemoveRows(parent, row, row+count-1);
 
@@ -229,16 +231,16 @@ bool TagMapModel::removeRows(const QModelIndexList rows)
         row_list.append(rows_iter->row());
     }
 
-    qDebug() << "DEBUG: TagMapModel::removeRows(rows): before: " << row_list;
+    // qDebug() << "DEBUG: TagMapModel::removeRows(rows): before: " << row_list;
     // sort row_list
     std::sort(row_list.begin(), row_list.end());
-    qDebug() << "DEBUG: TagMapModel::removeRows(rows): after: " << row_list;
+    // qDebug() << "DEBUG: TagMapModel::removeRows(rows): after: " << row_list;
 
     // remove the rows in reversed order to avoid invalid rows to be removed:
     // -->by starting with the high row numbers, the low ones are unaffected so long
     for (auto row_iter = row_list.rbegin(); row_iter != row_list.rend(); ++row_iter)
     {
-        qDebug() << "DEBUG: TagMapModel::removeRows(rows): remove row now: " << *row_iter;
+        // qDebug() << "DEBUG: TagMapModel::removeRows(rows): remove row now: " << *row_iter;
         if (!this->removeRow(*row_iter))
         {
             returnValue = false;
