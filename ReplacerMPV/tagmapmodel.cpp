@@ -83,15 +83,16 @@ bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, in
                 m_map.remove(keys[index.row()]);
                 // insert value with new key
                 m_map[newKey] = tmpMapValue;
+                emit dataChanged(index, index);
             }
         }
         // not column 0 means to set the map value to newValue
         else
         {
             m_map[keys[index.row()]] = newValue.toString();
+            emit dataChanged(index, index);
         }
 
-        emit dataChanged(index, index);
         return true;
     }
     return false;
@@ -172,7 +173,9 @@ bool TagMapModel::insertRows(int row, int count, const QModelIndex &parent)
         endInsertRows();
     }
     else
+    {
         return false;
+    }
     return true;
 }
 
