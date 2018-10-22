@@ -15,6 +15,7 @@
 #include "replacer.h"
 #include "filehelper.h"
 #include "messageboxhelper.h"
+#include "projectManager.h"
 
 
 class Presenter : public QObject
@@ -24,11 +25,13 @@ class Presenter : public QObject
     // private member
     MainWindow* m_pMainWindow{NULL};
     Model* m_pModel{NULL};
+    ProjectManager *m_pProjectManager{NULL};
 
 public:
     // constructor
     Presenter(MainWindow* pMainWindow,
-              Model* pModel);
+              Model* pModel,
+              ProjectManager* pProjectManager);
 
 private slots:
     // slots for the main windows (mw) signals

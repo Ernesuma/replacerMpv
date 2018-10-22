@@ -3,9 +3,10 @@
 /*
  * constructor
  */
-Presenter::Presenter(MainWindow *pMainWindow, Model *pModel) :
+Presenter::Presenter(MainWindow *pMainWindow, Model *pModel, ProjectManager *pProjectManager) :
     m_pMainWindow(pMainWindow),
-    m_pModel(pModel)
+    m_pModel(pModel),
+    m_pProjectManager(pProjectManager)
 {
     // connect the main windows signals to the presenters slots
     // --------------------------------------------------------
@@ -215,6 +216,7 @@ void Presenter::mwTextEditPlainChanged()
 void Presenter::mwMenuNew()
 {
     qInfo() << "New";
+    m_pProjectManager->newProject();
 }
 
 void Presenter::mwMenuLoad()
