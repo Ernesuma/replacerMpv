@@ -84,6 +84,7 @@ bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, in
                 // insert value with new key
                 m_map[newKey] = tmpMapValue;
                 emit dataChanged(index, index);
+                emit tagMapChanged();
             }
         }
         // not column 0 means to set the map value to newValue
@@ -91,8 +92,8 @@ bool TagMapModel::setData(const QModelIndex &index, const QVariant &newValue, in
         {
             m_map[keys[index.row()]] = newValue.toString();
             emit dataChanged(index, index);
+            emit tagMapChanged();
         }
-
         return true;
     }
     return false;
@@ -168,8 +169,8 @@ bool TagMapModel::insertRows(int row, int count, const QModelIndex &parent)
         for (int i{row}; i<row+count; ++i)
         {
             m_map[m_newKey] = m_newValue;
+            emit tagMapChanged();
         }
-
         endInsertRows();
     }
     else
@@ -214,6 +215,7 @@ bool TagMapModel::removeRows(int row, int count, const QModelIndex &parent)
     foreach (auto key, keys2remove)
     {
         m_map.remove(key);
+        emit tagMapChanged();
     }
 
     // inform the connected views about the finished removal of rows
