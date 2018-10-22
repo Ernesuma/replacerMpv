@@ -63,6 +63,8 @@ private slots:
     void tmmEmptyKey() const;
     void tmmDoubletKey(const QString tag) const;
 
+    void somethingSavableChanged();
+
 private:
     void enableDisableTagRemovalBtns();
     void importPlain();

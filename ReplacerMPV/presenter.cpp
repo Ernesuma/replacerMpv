@@ -29,6 +29,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel, ProjectManager *pPr
     // text edits
     QObject::connect(m_pMainWindow, SIGNAL(textEditPlain_textChanged()),
                      this, SLOT(mwTextEditPlainChanged()));
+    QObject::connect(m_pMainWindow, SIGNAL(textEditPlain_textChanged()),
+                     this, SLOT(somethingSavableChanged()));
 
     // menu 'Menu'
     QObject::connect(m_pMainWindow, SIGNAL(menuMenu_aboutToShow()),
@@ -77,6 +79,8 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel, ProjectManager *pPr
                      this, SLOT(tmmEmptyKey()));
     QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_doubletKey(const QString)),
                      this, SLOT(tmmDoubletKey(const QString)));
+    QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(tagMapChanged()),
+                     this, SLOT(somethingSavableChanged()));
 }
 
 void Presenter::mwPushBtnReplaceClicked()
@@ -315,6 +319,11 @@ void Presenter::tmmDoubletKey(const QString tag) const
         tr("The tag '") + tag + tr("' is already in use."),
         tr("Aborting tag change!"),
         m_pMainWindow);
+}
+
+void Presenter::somethingSavableChanged()
+{
+    m_pProjectManager->somethingChanged();
 }
 
 void Presenter::enableDisableTagRemovalBtns()
