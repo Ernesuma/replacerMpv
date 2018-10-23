@@ -7,6 +7,7 @@
 #include <memory>
 #include <QDebug>
 #include <QFileDialog>
+#include <QStandardPaths>
 
 #include "messageboxhelper.h"
 #include "selectprojectdialog.h"

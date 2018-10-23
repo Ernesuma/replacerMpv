@@ -46,10 +46,12 @@ void SelectProjectDialogPresenter::selProjDlg_toolBtnClicked()
 {
     qDebug() << "toolBtnClicked()";
     QString tmpStr{QFileDialog::getExistingDirectory(this->m_pSelPrjDlg.get()->parentWidget(),
-                                                     "Select Directory",
-                                                     "Where do you want to save your new project to?")};
+                                                     "Select Directory to Create Project in",
+                                                     QStandardPaths::writableLocation(QStandardPaths::StandardLocation::DocumentsLocation))};
     qDebug() << tmpStr;
-    m_pSelPrjDlg.get()->setLineEditDirText(tmpStr);
+    if(!tmpStr.isEmpty()) {
+        m_pSelPrjDlg.get()->setLineEditDirText(tmpStr);
+    }
 }
 
 

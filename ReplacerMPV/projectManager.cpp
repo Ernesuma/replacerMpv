@@ -1,7 +1,7 @@
 #include "projectManager.h"
 
 ProjectManager::ProjectManager() :
-    m_dialogPresenter(new ProjectManagerDialogsPresenter()) {
+    m_pDialogPresenter(new ProjectManagerDialogsPresenter()) {
 }
 
 ProjectManager::~ProjectManager() {
@@ -13,7 +13,7 @@ void ProjectManager::somethingChanged() {
     m_bUnsavedChangesExist = true;
 }
 
-ProjectManager::EResult ProjectManager::newProject() {
+ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
     enum EStates {
         eInvalid,
         eNew,
@@ -40,11 +40,16 @@ ProjectManager::EResult ProjectManager::newProject() {
             eState = EStates::eNew;
             break;
         case eSaveB4NewNoProj:
+        {
+            Project project{};
+            const IProjectManagerDialogsPresenter::EResult answer = m_pDialogPresenter.get()->selectProject(project, parent);
+            //if (IProjectManagerDialogsPresenter::EResult::OK ==
             eState = EStates::eSaveB4New;
+        }
             break;
         case eWannaSave:
         {
-            const IProjectManagerDialogsPresenter::EResult answer = m_dialogPresenter.get()->wannaSaveB4New();
+            const IProjectManagerDialogsPresenter::EResult answer = m_pDialogPresenter.get()->wannaSaveB4New(parent);
             if (IProjectManagerDialogsPresenter::EResult::YES == answer) {
                 if (projectSet()) {
                     eState = EStates::eSaveB4New;
@@ -72,7 +77,7 @@ ProjectManager::EResult ProjectManager::newProject() {
 
 bool ProjectManager::projectSet() const {
     // todo: implement
-    return true;
+    return false;
 }
 
 bool ProjectManager::allSaved() const {

@@ -11,9 +11,10 @@
 class ProjectManager {
 private:
     // member
-    Project *m_pCurrentProject{NULL};
+    Project *m_pCurrentProject{nullptr};
     bool m_bUnsavedChangesExist{false};
-    std::unique_ptr<IProjectManagerDialogsPresenter> m_dialogPresenter;
+    std::unique_ptr<IProjectManagerDialogsPresenter> m_pDialogPresenter;
+    //ProjectManagerDialogsPresenter *m_pDialogPresenter{};
 
 public:
     enum EResult {
@@ -33,7 +34,7 @@ public:
 
     void somethingChanged();
 
-    EResult newProject();
+    EResult newProject(QWidget *parent);
 
 
     bool projectSet() const;

@@ -2,10 +2,12 @@
 #define PROJECTMANAGERDIALOGSPRESENTER_H
 
 #include <QMessageBox>
+#include <QDebug>
 
 #include "iprojectmanagerdialogspresenter.h"
-#include "projectManager.h"
 #include "messageboxhelper.h"
+#include "selectprojectdialogpresenter.h"
+#include "project.h"
 
 
 class ProjectManagerDialogsPresenter : public IProjectManagerDialogsPresenter {
@@ -15,8 +17,10 @@ public:
     ProjectManagerDialogsPresenter();
 
 public:
-    IProjectManagerDialogsPresenter::EResult wannaSave(QString text) const;
-    IProjectManagerDialogsPresenter::EResult wannaSaveB4New() const;
+    IProjectManagerDialogsPresenter::EResult wannaSave(QString text, QWidget* parent=nullptr) const;
+    IProjectManagerDialogsPresenter::EResult wannaSaveB4New(QWidget* parent=nullptr) const;
+
+    IProjectManagerDialogsPresenter::EResult selectProject(Project &project, QWidget* parent=nullptr) const;
 
 };
 

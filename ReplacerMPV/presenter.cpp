@@ -220,7 +220,7 @@ void Presenter::mwTextEditPlainChanged()
 void Presenter::mwMenuNew()
 {
     qInfo() << "New";
-    m_pProjectManager->newProject();
+    m_pProjectManager->newProject(m_pMainWindow);
 }
 
 void Presenter::mwMenuLoad()
