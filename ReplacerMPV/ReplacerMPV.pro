@@ -26,14 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     presenter.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    selectprojectdialog.cpp \
+    selectprojectdialogpresenter.cpp
 
 HEADERS += \
     presenter.h \
-    mainwindow.h
+    mainwindow.h \
+    selectprojectdialog.h \
+    selectprojectdialogpresenter.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    selectprojectdialog.ui
 
 include(ReplacerMpv.pri)
 
