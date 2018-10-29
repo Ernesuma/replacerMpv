@@ -11,7 +11,7 @@
 class ProjectManager {
 private:
     // member
-    Project *m_pCurrentProject{nullptr};
+    std::unique_ptr<Project> m_pCurrentProject{nullptr};
     bool m_bUnsavedChangesExist{false};
     std::unique_ptr<IProjectManagerDialogsPresenter> m_pDialogPresenter;
 

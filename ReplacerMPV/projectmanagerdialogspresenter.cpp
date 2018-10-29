@@ -36,10 +36,13 @@ IProjectManagerDialogsPresenter::EResult ProjectManagerDialogsPresenter::selectP
 
     QString name{};
     QDir path{};
-    QDialog::DialogCode answer = pSelPrjDlgPresenter.get()->exec(name, path);
-    project.setName(name);
-    project.setProjectDir(path);
+    const QDialog::DialogCode answer = pSelPrjDlgPresenter.get()->exec(name, path);
     qDebug() << "answer: '" << answer << "'";
 
-    return IProjectManagerDialogsPresenter::EResult::OK;
+    if(QDialog::Accepted == answer) {
+        project.setName(name);
+        project.setProjectDir(path);
+        return IProjectManagerDialogsPresenter::EResult::OK;
+    }
+    return IProjectManagerDialogsPresenter::EResult::CANCEL;
 }

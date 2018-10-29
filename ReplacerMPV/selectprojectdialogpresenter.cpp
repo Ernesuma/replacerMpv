@@ -57,8 +57,10 @@ void SelectProjectDialogPresenter::selProjDlg_toolBtnClicked()
 
 void SelectProjectDialogPresenter::selProjDlg_lineEditNameChanged(QString text) {
     qDebug() << "selProjDlg_lineEditNameChanged" << text;
+    m_name = text;
 }
 
 void SelectProjectDialogPresenter::selProjDlg_lineEditDirChanged(QString text) {
     qDebug() << "selProjDlg_lineEditDirChanged" << text;
+    m_path = text;
 }

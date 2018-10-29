@@ -5,7 +5,7 @@ ProjectManager::ProjectManager() :
 }
 
 ProjectManager::~ProjectManager() {
-    delete m_pCurrentProject;
+    //delete m_pCurrentProject;
 }
 
 void ProjectManager::somethingChanged() {
@@ -23,6 +23,7 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
         eFinished
     };
 
+    Project *pProject{nullptr};
     EStates eState = eInvalid;
     if (this->allSaved()) {
         eState = eNew;
@@ -37,14 +38,22 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             eState = EStates::eFinished;
             break;
         case eSaveB4New:
+            qInfo() << "proect name: " << pProject->getName();
+            qInfo() << "save text to: " << pProject->getPlainTextFilePath();
+            qInfo() << "save tags to: " << pProject->getTagsFilePath();
+
             eState = EStates::eNew;
             break;
         case eSaveB4NewNoProj:
         {
-            Project project{};
-            const IProjectManagerDialogsPresenter::EResult answer = m_pDialogPresenter.get()->selectProject(project, parent);
-            //if (IProjectManagerDialogsPresenter::EResult::OK ==
-            eState = EStates::eSaveB4New;
+            const IProjectManagerDialogsPresenter::EResult answer = m_pDialogPresenter.get()->selectProject(*pProject, parent);
+            qDebug() << eState << ": answer: " << answer;
+            qDebug() << "project: " << pProject->getName() << ", " << pProject->getProjectDir();
+            if (IProjectManagerDialogsPresenter::EResult::OK == answer) {
+                eState = EStates::eSaveB4New;
+            } else {
+                eState = EStates::eFinished;
+            }
         }
             break;
         case eWannaSave:
@@ -53,9 +62,12 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             const IProjectManagerDialogsPresenter::EResult answer = m_pDialogPresenter.get()->wannaSaveB4New(parent);
             // yes
             if (IProjectManagerDialogsPresenter::EResult::YES == answer) {
-                if (projectSet()) {
+                // is the allready a project set to save the changes to?
+                if (nullptr != this->getCurrentProject()) {
+                    pProject = new Project(this->getCurrentProject()->getName(), this->getCurrentProject()->getProjectDir());
                     eState = EStates::eSaveB4New;
                 } else {
+                    pProject = new Project();
                     eState = EStates::eSaveB4NewNoProj;
                 }
             // no
@@ -76,18 +88,23 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             break;
         }
     }
+    delete(pProject);
     return EResult::OK;
 }
 
 
 
 bool ProjectManager::projectSet() const {
-    // todo: implement
-    return false;
+    return (!(nullptr == this->getCurrentProject()));
 }
 
 bool ProjectManager::allSaved() const {
     return !m_bUnsavedChangesExist;
+}
+
+const Project *ProjectManager::getCurrentProject() const
+{
+    return m_pCurrentProject.get();
 }
 
 void ProjectManager::setCurrentProject() {
