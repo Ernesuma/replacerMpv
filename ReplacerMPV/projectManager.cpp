@@ -49,21 +49,27 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             break;
         case eWannaSave:
         {
+            // ask if the user wants to save unsaved changes
             const IProjectManagerDialogsPresenter::EResult answer = m_pDialogPresenter.get()->wannaSaveB4New(parent);
+            // yes
             if (IProjectManagerDialogsPresenter::EResult::YES == answer) {
                 if (projectSet()) {
                     eState = EStates::eSaveB4New;
                 } else {
                     eState = EStates::eSaveB4NewNoProj;
                 }
+            // no
             } else if (IProjectManagerDialogsPresenter::EResult::NO == answer) {
                 eState = EStates::eNew;
+            // cancel
             } else {
                 eState = EStates::eFinished;
             }
         }
             break;
         case eInvalid:
+            qInfo() << "ERROR: got invalid state in projectManager";
+            eState = EStates::eFinished;
             break;
         default:
             eState = eInvalid;

@@ -23,6 +23,7 @@ IProjectManagerDialogsPresenter::EResult ProjectManagerDialogsPresenter::wannaSa
         return IProjectManagerDialogsPresenter::EResult::CANCEL;
         break;
     default:
+        // do nothing
         break;
     }
     return IProjectManagerDialogsPresenter::EResult::ERROR;

@@ -14,7 +14,6 @@ private:
     Project *m_pCurrentProject{nullptr};
     bool m_bUnsavedChangesExist{false};
     std::unique_ptr<IProjectManagerDialogsPresenter> m_pDialogPresenter;
-    //ProjectManagerDialogsPresenter *m_pDialogPresenter{};
 
 public:
     enum EResult {
