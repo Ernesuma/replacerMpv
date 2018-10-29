@@ -23,7 +23,7 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
         eFinished
     };
 
-    Project *pProject{nullptr};
+    std::unique_ptr<Project> pProject{nullptr};
     EStates eState = eInvalid;
     if (this->allSaved()) {
         eState = eNew;
@@ -41,6 +41,8 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             qInfo() << "proect name: " << pProject->getName();
             qInfo() << "save text to: " << pProject->getPlainTextFilePath();
             qInfo() << "save tags to: " << pProject->getTagsFilePath();
+
+            m_pCurrentProject.swap(pProject);
 
             eState = EStates::eNew;
             break;
@@ -64,10 +66,10 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             if (IProjectManagerDialogsPresenter::EResult::YES == answer) {
                 // is the allready a project set to save the changes to?
                 if (nullptr != this->getCurrentProject()) {
-                    pProject = new Project(this->getCurrentProject()->getName(), this->getCurrentProject()->getProjectDir());
+                    pProject.reset(new Project(*(this->getCurrentProject())));
                     eState = EStates::eSaveB4New;
                 } else {
-                    pProject = new Project();
+                    pProject.reset(new Project());
                     eState = EStates::eSaveB4NewNoProj;
                 }
             // no
@@ -88,7 +90,7 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             break;
         }
     }
-    delete(pProject);
+    //delete(pProject);
     return EResult::OK;
 }
 
