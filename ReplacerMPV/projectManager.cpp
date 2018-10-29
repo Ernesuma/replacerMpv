@@ -1,6 +1,7 @@
 #include "projectManager.h"
 
-ProjectManager::ProjectManager() :
+ProjectManager::ProjectManager(QObject *parent) :
+    QObject(parent),
     m_pDialogPresenter(new ProjectManagerDialogsPresenter()) {
 }
 
@@ -42,7 +43,7 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             qInfo() << "save text to: " << pProject->getPlainTextFilePath();
             qInfo() << "save tags to: " << pProject->getTagsFilePath();
 
-            m_pCurrentProject.swap(pProject);
+            this->setCurrentProject(pProject);
 
             eState = EStates::eNew;
             break;
@@ -90,7 +91,6 @@ ProjectManager::EResult ProjectManager::newProject(QWidget *parent) {
             break;
         }
     }
-    //delete(pProject);
     return EResult::OK;
 }
 
@@ -109,7 +109,9 @@ const Project *ProjectManager::getCurrentProject() const
     return m_pCurrentProject.get();
 }
 
-void ProjectManager::setCurrentProject() {
-    // todo: implement
+void ProjectManager::setCurrentProject(std::unique_ptr<Project> &ptr) {
+    m_pCurrentProject.swap(ptr);
+    Project p = Project(*(this->getCurrentProject()));
+    qDebug() << "about to emit changed project: " << p.getName();
+    emit currentProjectChanged(p);
 }
-

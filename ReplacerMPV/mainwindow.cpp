@@ -149,6 +149,11 @@ void MainWindow::enableMenuActionExportTags(const bool bEnable)
     m_actionExportTagList->setEnabled(bEnable);
 }
 
+void MainWindow::setProjectLabel(const QString &text)
+{
+    ui->lbl_currentProject->setText(text);
+}
+
 void MainWindow::createMenus()
 {
     // add menus to menubar

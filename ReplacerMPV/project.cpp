@@ -44,3 +44,8 @@ QDir Project::getTagsFilePath() const
     // todo: replace mock implementation
     return QDir("~/testProject/tag.map");
 }
+
+bool Project::isEmpty() const
+{
+   return this->getName().isEmpty();
+}

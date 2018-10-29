@@ -79,8 +79,16 @@ Presenter::Presenter(MainWindow *pMainWindow, Model *pModel, ProjectManager *pPr
                      this, SLOT(tmmEmptyKey()));
     QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(setData_doubletKey(const QString)),
                      this, SLOT(tmmDoubletKey(const QString)));
+
+    // something changed
     QObject::connect(m_pModel->getTagMapModelRawPtr(), SIGNAL(tagMapChanged()),
                      this, SLOT(somethingSavableChanged()));
+
+    //----------------
+
+    // current project changed
+    QObject::connect(m_pProjectManager, SIGNAL(currentProjectChanged(Project)),
+                     this, SLOT(currentProjectChanged(Project)));
 }
 
 void Presenter::mwPushBtnReplaceClicked()
@@ -324,6 +332,16 @@ void Presenter::tmmDoubletKey(const QString tag) const
 void Presenter::somethingSavableChanged()
 {
     m_pProjectManager->somethingChanged();
+}
+
+void Presenter::currentProjectChanged(const Project project)
+{
+    if (project.isEmpty()) {
+        m_pMainWindow->setProjectLabel("No Project Set");
+    }
+    else {
+        m_pMainWindow->setProjectLabel("Current Project: '" + project.getName() + "' in Directory '" + project.getProjectDir().path() + "'");
+    }
 }
 
 void Presenter::enableDisableTagRemovalBtns()

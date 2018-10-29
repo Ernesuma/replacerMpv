@@ -56,6 +56,8 @@ public:
     void enableMenuActionExportPlain(const bool bEnable);
     void enableMenuActionExportFinal(const bool bEnable);
     void enableMenuActionExportTags(const bool bEnable);
+
+    void setProjectLabel(const QString& text);
 private:
     void createMenus();
 

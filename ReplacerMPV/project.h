@@ -22,5 +22,6 @@ public:
 
     QDir getPlainTextFilePath() const;
     QDir getTagsFilePath() const;
+    bool isEmpty() const;
 };
 #endif // PROJECT_H

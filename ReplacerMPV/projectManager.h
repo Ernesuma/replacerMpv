@@ -2,13 +2,17 @@
 #define PROJECT_MANAGER_H
 
 #include <QDebug>
+#include <QObject>
 #include <memory>
 
 #include "project.h"
 #include "iprojectmanagerdialogspresenter.h"
 #include "projectmanagerdialogspresenter.h"
 
-class ProjectManager {
+class ProjectManager : public QObject {
+
+    Q_OBJECT
+
 private:
     // member
     std::unique_ptr<Project> m_pCurrentProject{nullptr};
@@ -27,7 +31,7 @@ public:
 
 public:
     // constructor
-    ProjectManager();
+    ProjectManager(QObject* parent = nullptr);
     // destructor
     ~ProjectManager();
 
@@ -42,7 +46,11 @@ public:
     const Project* getCurrentProject() const;
 
 private:
-    void setCurrentProject();
+    void setCurrentProject(std::unique_ptr<Project>& ptr);
+
+
+signals:
+    void currentProjectChanged(const Project project);
 };
 
 
